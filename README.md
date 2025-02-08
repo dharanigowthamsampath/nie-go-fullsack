@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Full Stack Development Bootcamp (5-Day Course)
 
-## Getting Started
+Welcome to the **5-Day Full Stack Development Bootcamp**! 🚀 This course is designed to take you through the core technologies required to build modern web applications, from front-end to back-end development.
 
-First, run the development server:
+## 📅 Course Schedule
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+| Day   | Topics Covered                           | Link to Materials                                    |
+| ----- | ---------------------------------------- | ---------------------------------------------------- |
+| Day 1 | **HTML / CSS / Bootstrap**               | [Bootstrap](http://localhost:3000/Bootstrap/b_index) |
+| Day 2 | **React Basics with Bootstrap**          | [React](http://localhost:3000/React/r_index)         |
+| Day 3 | **Go Basics / CRUD Operations**          | [Go](http://localhost:3000/Go/g_index)               |
+| Day 4 | **MongoDB / Go APIs / React Connection** | [MongoDB](http://localhost:3000/MongoDB/m_index)     |
+| Day 5 | **Student Project**                      | -                                                    |
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📝 Day-Wise Syllabus
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 📌 Day 1: HTML / CSS / Bootstrap
 
-## Learn More
+- Introduction to HTML & CSS
+- What is Bootstrap & Why use it?
+- Setting up Bootstrap in a project
+- Creating a **responsive navbar**
+- Working with **tables & buttons**
+- Bootstrap **grid system & columns**
 
-To learn more about Next.js, take a look at the following resources:
+### 📌 Day 2: React Basics with Bootstrap
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Introduction to React.js
+- Setting up a React project with Bootstrap
+- Understanding **Components & Props**
+- Handling **State & Events**
+- Building **forms & controlled components**
+- Basic API calls with Fetch/Axios
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 📌 Day 3: Go Basics / CRUD Operations
 
-## Deploy on Vercel
+- Introduction to Go (Golang)
+- Setting up a Go environment
+- Understanding **variables, loops, functions**
+- Introduction to **Gin framework** for APIs
+- Implementing **CRUD operations with Go**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 📌 Day 4: MongoDB / Go APIs / React Connection
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Introduction to MongoDB (NoSQL vs SQL)
+- Installing MongoDB & using Compass
+- CRUD operations in MongoDB
+- Connecting **MongoDB with Go APIs** (Gin)
+- Fetching data in React from Go API
+
+### 📌 Day 5: Student Project
+
+- Final project integrating React, Go, and MongoDB
+- Building a **simple CRUD application**
+- Deploying the project
+- Q&A and feedback session
+
+---
+
+## 🎯 Course Objectives
+
+By the end of this course, you will:
+✅ Understand the fundamentals of front-end and back-end development.  
+✅ Be able to create a full-stack web application.  
+✅ Know how to connect React with Go APIs and MongoDB.  
+✅ Deploy a complete web project.
+
+---
+
+## 📚 Prerequisites
+
+- Basic programming knowledge (helpful but not required)
+- A laptop with Node.js, Go, and MongoDB installed
+- An internet connection
+
+---
+
+## 📌 Resources
+
+- [Bootstrap Docs](https://getbootstrap.com/)
+- [React Docs](https://react.dev/)
+- [Go Docs](https://golang.org/doc/)
+- [MongoDB Docs](https://www.mongodb.com/docs/)
+
+🚀 Let's start building amazing web applications!
