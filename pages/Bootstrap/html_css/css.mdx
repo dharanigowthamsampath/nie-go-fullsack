@@ -1,0 +1,164 @@
+# 📌 CSS Basics with Explanations
+
+CSS (Cascading Style Sheets) is used to style HTML elements and make web pages visually appealing. Below are fundamental CSS concepts with explanations for each code snippet.
+
+## 🎨 Basic CSS Syntax
+
+```html copy filename="index.css"
+selector { property: value; }
+```
+
+### Explanation:
+
+- **Selector**: Targets an HTML element (e.g., `h1`, `p`, `.class`, `#id`).
+- **Property**: Specifies the style attribute (e.g., `color`, `font-size`).
+- **Value**: Defines the appearance (e.g., `red`, `16px`).
+
+## 📌 Applying CSS
+
+### Inline CSS
+
+```html copy filename="index.html"
+<p style="color: blue; font-size: 18px;">This is a blue paragraph.</p>
+```
+
+### Internal CSS
+
+```html copy filename="index.html"
+<style>
+  p {
+    color: blue;
+    font-size: 18px;
+  }
+</style>
+```
+
+### External CSS
+
+```html copy filename="index.html"
+<link rel="stylesheet" href="styles.css" />
+```
+
+### Explanation:
+
+- **Inline CSS**: Applied directly inside an HTML tag.
+- **Internal CSS**: Defined inside a `<style>` block within the `<head>`.
+- **External CSS**: A separate `.css` file linked to the HTML page.
+
+## 📌 Selectors
+
+### Universal Selector
+
+```html copy filename="index.css"
+* { margin: 0; padding: 0; }
+```
+
+### Element Selector
+
+```html copy filename="index.css"
+p { color: green; }
+```
+
+### Class Selector
+
+```html copy filename="index.css"
+.highlight { background-color: yellow; }
+```
+
+### ID Selector
+
+```html copy filename="index.css"
+#unique { font-weight: bold; }
+```
+
+### Explanation:
+
+- `*`: Selects all elements.
+- `element`: Targets specific HTML elements.
+- `.class`: Targets elements with a specific class.
+- `#id`: Targets elements with a specific ID.
+
+## 📌 Colors in CSS
+
+```html copy filename="index.css"
+h1 { color: red; /* Named color */ color: #ff0000; /* Hex code */ color:
+rgb(255, 0, 0); /* RGB value */ }
+```
+
+### Explanation:
+
+- CSS supports color names, hex codes, and RGB values.
+
+## 📌 Backgrounds
+
+```html copy filename="index.css"
+body { background-color: lightgray; background-image: url("background.jpg");
+background-size: cover; }
+```
+
+### Explanation:
+
+- `background-color`: Sets the background color.
+- `background-image`: Adds an image as the background.
+- `background-size`: Adjusts the image size.
+
+## 📌 Borders & Padding
+
+```html copy filename="index.css"
+div { border: 2px solid black; padding: 10px; margin: 20px; }
+```
+
+### Explanation:
+
+- `border`: Defines a border.
+- `padding`: Space inside the element.
+- `margin`: Space outside the element.
+
+## 📌 Text Styling
+
+```html copy filename="index.css"
+p { font-size: 16px; font-family: Arial, sans-serif; text-align: center; }
+```
+
+### Explanation:
+
+- `font-size`: Defines text size.
+- `font-family`: Sets font type.
+- `text-align`: Aligns text (left, center, right).
+
+## 📌 Box Model
+
+```html copy filename="index.css"
+div { width: 300px; height: 200px; padding: 10px; border: 2px solid black;
+margin: 20px; }
+```
+
+### Explanation:
+
+- The box model includes `width`, `height`, `padding`, `border`, and `margin`.
+
+## 📌 Flexbox
+
+```html copy filename="index.css"
+.container { display: flex; justify-content: center; align-items: center; }
+```
+
+### Explanation:
+
+- `display: flex;`: Enables flexbox.
+- `justify-content`: Aligns items horizontally.
+- `align-items`: Aligns items vertically.
+
+## 📌 Media Queries (Responsive Design)
+
+```html copy filename="index.css"
+@media (max-width: 600px) { body { background-color: lightblue; } }
+```
+
+### Explanation:
+
+- Adjusts styles based on screen width.
+
+---
+
+🚀 **Now that we understand CSS basics, we can move on to advanced styling with animations and transitions!**
