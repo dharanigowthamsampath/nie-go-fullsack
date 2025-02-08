@@ -5,7 +5,7 @@ const meta = {
   },
   b_index: "Overview",
   why_bootstrap: "Why Bootstrap?",
-  html_css_basics: "HTML & CSS Basics",
+  html_css: "HTML & CSS Basics",
 
   "-- Setup": {
     title: "Environment Setup",

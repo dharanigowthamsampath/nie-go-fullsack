@@ -1,0 +1,173 @@
+# 📌 HTML Basics with Explanations
+
+HTML (HyperText Markup Language) is the standard language for creating web pages. Below are the fundamental concepts every beginner should know, along with explanations for each code snippet.
+
+## 🏷 Basic HTML Structure
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My First Webpage</title>
+  </head>
+  <body>
+    <h1>Welcome to HTML</h1>
+    <p>This is a paragraph in HTML.</p>
+  </body>
+</html>
+```
+
+### Explanation:
+
+- `<!DOCTYPE html>`: Declares the document type as HTML5.
+- `<html>`: The root element of the HTML document.
+- `<head>`: Contains meta-information like the page title.
+- `<title>`: Specifies the title displayed on the browser tab.
+- `<body>`: The main content area of the webpage.
+- `<h1>`: Defines a top-level heading.
+- `<p>`: Defines a paragraph.
+
+## 📌 Headings
+
+HTML provides six levels of headings, from `<h1>` (largest) to `<h6>` (smallest).
+
+```html
+<h1>Heading 1</h1>
+<h2>Heading 2</h2>
+<h3>Heading 3</h3>
+```
+
+### Explanation:
+
+- `<h1>` to `<h6>`: Used to define different levels of headings. `<h1>` is the most important, while `<h6>` is the least.
+
+## 📌 Paragraphs & Text Formatting
+
+```html
+<p>This is a normal paragraph.</p>
+<b>Bold Text</b> <i>Italic Text</i> <u>Underlined Text</u>
+```
+
+### Explanation:
+
+- `<p>`: Defines a paragraph.
+- `<b>`: Makes text bold.
+- `<i>`: Makes text italic.
+- `<u>`: Underlines the text.
+
+## 📌 Lists
+
+### Unordered List:
+
+```html
+<ul>
+  <li>Item 1</li>
+  <li>Item 2</li>
+  <li>Item 3</li>
+</ul>
+```
+
+### Ordered List:
+
+```html
+<ol>
+  <li>Step 1</li>
+  <li>Step 2</li>
+  <li>Step 3</li>
+</ol>
+```
+
+### Explanation:
+
+- `<ul>`: Creates an unordered list with bullet points.
+- `<ol>`: Creates an ordered list with numbers.
+- `<li>`: Defines individual list items.
+
+## 📌 Links & Images
+
+```html
+<a href="https://www.example.com">Visit Example</a>
+<img src="image.jpg" alt="Example Image" />
+```
+
+### Explanation:
+
+- `<a href="URL">`: Creates a hyperlink.
+- `<img src="URL" alt="Description">`: Displays an image. The `alt` attribute provides alternative text.
+
+## 📌 Forms & Inputs
+
+```html
+<form>
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" />
+  <br />
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" />
+  <br />
+  <input type="submit" value="Submit" />
+</form>
+```
+
+### Explanation:
+
+- `<form>`: Defines a form for user input.
+- `<label>`: Labels for input fields.
+- `<input type="text">`: Accepts text input.
+- `<input type="email">`: Accepts email input.
+- `<input type="submit">`: Creates a submit button.
+
+## 📌 Tables
+
+```html
+<table border="1">
+  <tr>
+    <th>Name</th>
+    <th>Age</th>
+  </tr>
+  <tr>
+    <td>Alice</td>
+    <td>25</td>
+  </tr>
+  <tr>
+    <td>Bob</td>
+    <td>30</td>
+  </tr>
+</table>
+```
+
+### Explanation:
+
+- `<table>`: Defines a table.
+- `<tr>`: Defines a table row.
+- `<th>`: Defines a table header.
+- `<td>`: Defines a table data cell.
+
+## 📌 Divs & Spans
+
+```html
+<div style="background-color: lightblue; padding: 10px;">
+  This is a div block
+</div>
+<span style="color: red;">This is a span element</span>
+```
+
+### Explanation:
+
+- `<div>`: A block-level container for grouping elements.
+- `<span>`: An inline container for styling specific text.
+- `style="background-color: lightblue; padding: 10px;"`: Adds inline styling.
+
+## 📌 Buttons
+
+```html
+<button>Click Me</button>
+```
+
+### Explanation:
+
+- `<button>`: Creates a clickable button.
+
+---
+
+🚀 **Now that we understand HTML basics, we can move on to CSS and Bootstrap!**
