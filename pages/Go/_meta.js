@@ -24,12 +24,6 @@ const meta = {
   go_pointers: "Pointers in Go",
   error_handling: "Error Handling in Go",
 
-  "-- Working with Data": {
-    title: "Working with JSON & HTTP",
-    type: "separator",
-  },
-  json_handling: "Handling JSON in Go",
-  http_requests: "Making HTTP Requests in Go",
 
   "-- Gin Framework": {
     title: "Building APIs with Gin",
