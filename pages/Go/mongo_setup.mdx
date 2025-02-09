@@ -1,25 +1,299 @@
----
-title: "Setting Up MongoDB with Go"
+# **Setting Up Go with MongoDB**
+
+## **Introduction**
+
+MongoDB is a NoSQL database that is widely used for storing JSON-like data. In this guide, we will set up **Go** with **MongoDB**, create a connection, and perform **basic CRUD operations** (Create, Read, Update, Delete) using the **official MongoDB driver**.
+
 ---
 
-# Setting Up MongoDB with Go
+## **📌 Prerequisites**
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Setting Up MongoDB with Go</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Setting Up MongoDB with Go goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+Before we start, ensure you have the following installed:
+
+✅ **Go** installed → [Download Go](https://go.dev/doc/install)  
+✅ **MongoDB** installed → [Download MongoDB](https://www.mongodb.com/try/download/community)  
+✅ **MongoDB Compass** (optional for GUI) → [Download Compass](https://www.mongodb.com/try/download/compass)
+
+---
+
+## **📌 Step 1: Install MongoDB Driver for Go**
+
+Go provides an official driver for MongoDB. Run the following command in your terminal to install it:
+
+```sh
+go get go.mongodb.org/mongo-driver/mongo
+go get go.mongodb.org/mongo-driver/bson
+```
+
+This installs the **MongoDB driver** and **BSON package** (used to handle MongoDB documents in Go).
+
+---
+
+## **📌 Step 2: Connect Go to MongoDB**
+
+### **Create a new Go file (`main.go`)** and add the following:
+
+```go filename="main.go" copy
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"time"
+
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+)
+
+// Define the MongoDB connection URI
+const mongoURI = "mongodb://localhost:27017"
+
+// MongoDB client
+var client *mongo.Client
+
+func main() {
+	// Connect to MongoDB
+	err := connectDB()
+	if err != nil {
+		log.Fatal("Could not connect to MongoDB:", err)
+	}
+	defer client.Disconnect(context.Background()) // Disconnect when program ends
+
+	fmt.Println("✅ Connected to MongoDB!")
+
+	// Call CRUD functions for testing
+	createUser("John Doe", 28)
+	getAllUsers()
+}
+```
+
+---
+
+## **📌 Step 3: Create a Database Connection**
+
+Inside the **`main.go`** file, add the **`connectDB()`** function:
+
+```go filename="main.go" copy
+func connectDB() error {
+	// Set MongoDB client options
+	clientOptions := options.Client().ApplyURI(mongoURI)
+
+	// Create a MongoDB client
+	var err error
+	client, err = mongo.Connect(context.Background(), clientOptions)
+	if err != nil {
+		return err
+	}
+
+	// Check if connection is successful
+	err = client.Ping(context.Background(), nil)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+```
+
+### **🔹 Explanation:**
+
+✅ Connects to MongoDB at **`mongodb://localhost:27017`**  
+✅ Uses **context.Background()** to manage the database connection  
+✅ Checks if MongoDB is reachable using `Ping()`
+
+---
+
+## **📌 Step 4: Define a Collection and Schema**
+
+MongoDB stores data as **JSON-like documents** (BSON format). We will create a `users` collection inside a `go_db` database.
+
+```go filename="main.go" copy
+// Define a struct for the user document
+type User struct {
+	ID   string `bson:"_id,omitempty"`
+	Name string `bson:"name"`
+	Age  int    `bson:"age"`
+}
+
+// Get the collection reference
+func getCollection() *mongo.Collection {
+	return client.Database("go_db").Collection("users")
+}
+```
+
+---
+
+## **📌 Step 5: Insert (Create) a User**
+
+### **Code to Insert Data**
+
+```go filename="main.go" copy
+func createUser(name string, age int) {
+	collection := getCollection()
+
+	// Create user document
+	user := User{Name: name, Age: age}
+
+	// Insert into MongoDB
+	_, err := collection.InsertOne(context.Background(), user)
+	if err != nil {
+		log.Fatal("Error inserting user:", err)
+	}
+
+	fmt.Println("✅ User added successfully!")
+}
+```
+
+### **🔹 Explanation:**
+
+✅ Defines a **`User`** struct  
+✅ Uses **InsertOne()** to add a user to MongoDB
+
+#### **🔥 Test the Insert Function**
+
+Run the program, and the user will be stored in MongoDB.  
+You can verify this in **MongoDB Compass**.
+
+---
+
+## **📌 Step 6: Retrieve (Read) Users**
+
+### **Code to Get All Users**
+
+```go filename="main.go" copy
+func getAllUsers() {
+	collection := getCollection()
+
+	// Retrieve all users
+	cursor, err := collection.Find(context.Background(), bson.M{})
+	if err != nil {
+		log.Fatal("Error fetching users:", err)
+	}
+	defer cursor.Close(context.Background())
+
+	var users []User
+	for cursor.Next(context.Background()) {
+		var user User
+		cursor.Decode(&user)
+		users = append(users, user)
+	}
+
+	fmt.Println("👥 Users in Database:")
+	for _, user := range users {
+		fmt.Printf("ID: %s, Name: %s, Age: %d\n", user.ID, user.Name, user.Age)
+	}
+}
+```
+
+### **🔹 Explanation:**
+
+✅ Uses **Find()** to retrieve all users  
+✅ Decodes MongoDB BSON into a **Go struct**  
+✅ Prints all users stored in the database
+
+---
+
+## **📌 Step 7: Update a User**
+
+### **Code to Update a User’s Age**
+
+```go filename="main.go" copy
+func updateUser(name string, newAge int) {
+	collection := getCollection()
+
+	// Update condition
+	filter := bson.M{"name": name}
+	update := bson.M{"$set": bson.M{"age": newAge}}
+
+	// Perform update
+	_, err := collection.UpdateOne(context.Background(), filter, update)
+	if err != nil {
+		log.Fatal("Error updating user:", err)
+	}
+
+	fmt.Println("✅ User updated successfully!")
+}
+```
+
+### **🔹 Explanation:**
+
+✅ Finds a user by **name**  
+✅ Uses **UpdateOne()** to modify the user’s age
+
+---
+
+## **📌 Step 8: Delete a User**
+
+### **Code to Delete a User**
+
+```go filename="main.go" copy
+func deleteUser(name string) {
+	collection := getCollection()
+
+	// Delete filter
+	filter := bson.M{"name": name}
+
+	// Perform delete
+	_, err := collection.DeleteOne(context.Background(), filter)
+	if err != nil {
+		log.Fatal("Error deleting user:", err)
+	}
+
+	fmt.Println("✅ User deleted successfully!")
+}
+```
+
+### **🔹 Explanation:**
+
+✅ Uses **DeleteOne()** to remove a user by **name**
+
+---
+
+## **📌 Step 9: Run and Test the CRUD Operations**
+
+### **Modify `main()` to Test CRUD**
+
+```go filename="main.go" copy
+func main() {
+	// Connect to MongoDB
+	err := connectDB()
+	if err != nil {
+		log.Fatal("Could not connect to MongoDB:", err)
+	}
+	defer client.Disconnect(context.Background())
+
+	// CRUD Operations
+	createUser("Alice", 30)
+	getAllUsers()
+	updateUser("Alice", 32)
+	getAllUsers()
+	deleteUser("Alice")
+	getAllUsers()
+}
+```
+
+### **🔹 Expected Output**
+
+```sh
+✅ Connected to MongoDB!
+✅ User added successfully!
+👥 Users in Database:
+ID: 123abc, Name: Alice, Age: 30
+✅ User updated successfully!
+👥 Users in Database:
+ID: 123abc, Name: Alice, Age: 32
+✅ User deleted successfully!
+👥 Users in Database:
+```
+
+---
+
+## **📌 Summary**
+
+✅ Installed MongoDB driver for Go  
+✅ Connected to MongoDB  
+✅ Performed **CRUD** operations (Create, Read, Update, Delete)  
+✅ Used **structs** for handling BSON data
+
+🎯 **Now you have successfully integrated MongoDB with Go!** 🚀

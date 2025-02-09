@@ -1,25 +1,329 @@
----
-title: "Performing CRUD Operations"
+# **Building a CRUD API with Go and MongoDB**
+
+## **📌 Introduction**
+
+In this guide, we'll create a **RESTful API** using **Go** and **MongoDB**. We'll use the **Gin framework** for routing and the official **MongoDB driver** for database operations. This API will perform **CRUD operations** (Create, Read, Update, Delete) on a `users` collection.
+
 ---
 
-# Performing CRUD Operations
+## **📌 Prerequisites**
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Performing CRUD Operations</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Performing CRUD Operations goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+Make sure you have the following installed:  
+✅ **Go** → [Download Go](https://go.dev/doc/install)  
+✅ **MongoDB** → [Download MongoDB](https://www.mongodb.com/try/download/community)  
+✅ **Postman or Curl** → For API testing
+
+---
+
+## **📌 Step 1: Install Required Packages**
+
+First, create a new Go project and initialize a module:
+
+```sh
+mkdir go-mongo-api && cd go-mongo-api
+go mod init go-mongo-api
+```
+
+Now install the required dependencies:
+
+```sh
+go get github.com/gin-gonic/gin
+go get go.mongodb.org/mongo-driver/mongo
+go get go.mongodb.org/mongo-driver/bson
+go get go.mongodb.org/mongo-driver/mongo/options
+```
+
+---
+
+## **📌 Step 2: Create the Project Structure**
+
+Organize the files like this:
+
+```
+go-mongo-api/
+│── main.go
+│── db.go
+│── handlers.go
+│── models.go
+│── routes.go
+│── go.mod
+│── go.sum
+```
+
+---
+
+## **📌 Step 3: Connect to MongoDB (`db.go`)**
+
+Create a **`db.go`** file to handle MongoDB connections.
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"time"
+
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+)
+
+// MongoDB connection string
+const mongoURI = "mongodb://localhost:27017"
+
+// MongoDB client
+var client *mongo.Client
+
+// Connect to MongoDB
+func connectDB() {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	var err error
+	client, err = mongo.Connect(ctx, options.Client().ApplyURI(mongoURI))
+	if err != nil {
+		log.Fatal("❌ Could not connect to MongoDB:", err)
+	}
+
+	// Ping the database
+	err = client.Ping(ctx, nil)
+	if err != nil {
+		log.Fatal("❌ Could not ping MongoDB:", err)
+	}
+
+	fmt.Println("✅ Connected to MongoDB!")
+}
+
+// Get a collection reference
+func getCollection(collectionName string) *mongo.Collection {
+	return client.Database("go_api_db").Collection(collectionName)
+}
+```
+
+---
+
+## **📌 Step 4: Define the User Model (`models.go`)**
+
+Create a **`models.go`** file to define the User struct.
+
+```go
+package main
+
+import "go.mongodb.org/mongo-driver/bson/primitive"
+
+// User struct (MongoDB document)
+type User struct {
+	ID    primitive.ObjectID `bson:"_id,omitempty" json:"id"`
+	Name  string             `bson:"name" json:"name"`
+	Email string             `bson:"email" json:"email"`
+	Age   int                `bson:"age" json:"age"`
+}
+```
+
+---
+
+## **📌 Step 5: Create Handlers for CRUD Operations (`handlers.go`)**
+
+Create a **`handlers.go`** file to handle requests.
+
+### **1️⃣ Create a New User (POST `/users`)**
+
+```go
+package main
+
+import (
+	"context"
+	"log"
+	"net/http"
+	"time"
+
+	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
+
+// Create a user
+func createUser(c *gin.Context) {
+	collection := getCollection("users")
+	var user User
+
+	// Bind JSON data to user struct
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	user.ID = primitive.NewObjectID() // Generate a unique ObjectID
+
+	// Insert user into MongoDB
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := collection.InsertOne(ctx, user)
+	if err != nil {
+		log.Fatal("❌ Error inserting user:", err)
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"message": "User created successfully", "user": user})
+}
+```
+
+---
+
+### **2️⃣ Get All Users (GET `/users`)**
+
+```go
+// Get all users
+func getAllUsers(c *gin.Context) {
+	collection := getCollection("users")
+	var users []User
+
+	// Find all users
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	cursor, err := collection.Find(ctx, bson.M{})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not retrieve users"})
+		return
+	}
+	defer cursor.Close(ctx)
+
+	// Decode users
+	for cursor.Next(ctx) {
+		var user User
+		cursor.Decode(&user)
+		users = append(users, user)
+	}
+
+	c.JSON(http.StatusOK, users)
+}
+```
+
+---
+
+### **3️⃣ Get a Single User (GET `/users/:id`)**
+
+```go
+// Get a single user by ID
+func getUserByID(c *gin.Context) {
+	collection := getCollection("users")
+	id, _ := primitive.ObjectIDFromHex(c.Param("id"))
+
+	var user User
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	err := collection.FindOne(ctx, bson.M{"_id": id}).Decode(&user)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, user)
+}
+```
+
+---
+
+### **4️⃣ Update a User (PUT `/users/:id`)**
+
+```go
+// Update a user by ID
+func updateUser(c *gin.Context) {
+	collection := getCollection("users")
+	id, _ := primitive.ObjectIDFromHex(c.Param("id"))
+
+	var user User
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	// Update user data
+	update := bson.M{"$set": user}
+	_, err := collection.UpdateOne(ctx, bson.M{"_id": id}, update)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not update user"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "User updated successfully"})
+}
+```
+
+---
+
+### **5️⃣ Delete a User (DELETE `/users/:id`)**
+
+```go
+// Delete a user by ID
+func deleteUser(c *gin.Context) {
+	collection := getCollection("users")
+	id, _ := primitive.ObjectIDFromHex(c.Param("id"))
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	_, err := collection.DeleteOne(ctx, bson.M{"_id": id})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not delete user"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "User deleted successfully"})
+}
+```
+
+---
+
+## **📌 Step 6: Set Up Routes (`routes.go`)**
+
+```go
+package main
+
+import "github.com/gin-gonic/gin"
+
+func setupRoutes(router *gin.Engine) {
+	router.POST("/users", createUser)
+	router.GET("/users", getAllUsers)
+	router.GET("/users/:id", getUserByID)
+	router.PUT("/users/:id", updateUser)
+	router.DELETE("/users/:id", deleteUser)
+}
+```
+
+---
+
+## **📌 Step 7: Start the Server (`main.go`)**
+
+```go
+package main
+
+import "github.com/gin-gonic/gin"
+
+func main() {
+	connectDB()
+	router := gin.Default()
+	setupRoutes(router)
+
+	// Start server
+	router.Run(":8080")
+}
+```
+
+---
+
+## **📌 Step 8: Test the API**
+
+Use **Postman** or `curl` to test the API.
+
+```sh
+curl -X POST http://localhost:8080/users -d '{"name": "John Doe", "email": "john@example.com", "age": 30}' -H "Content-Type: application/json"
+```
+
+🚀 **Now your Go + MongoDB CRUD API is ready!** 🚀

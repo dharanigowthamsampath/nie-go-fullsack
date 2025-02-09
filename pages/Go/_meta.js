@@ -47,19 +47,11 @@ const meta = {
   mongo_setup: "Setting Up MongoDB with Go",
   mongo_crud: "Performing CRUD Operations",
 
-  "-- Testing & Deployment": {
-    title: "Testing & Deployment",
-    type: "separator",
-  },
-  testing_api: "Testing APIs in Go",
-  deploying_go_app: "Deploying a Go App",
-
   "-- References": {
     title: "References",
     type: "separator",
   },
-  go_docs: "Go Official Documentation",
-  useful_links: "Additional Resources",
+  go_docs: "Go Docs & Reference",
 };
 
 export default meta;
