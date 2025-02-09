@@ -4,8 +4,8 @@ const meta = {
     type: "separator",
   },
   b_index: "Overview",
-  why_bootstrap: "Why Bootstrap?",
   html_css: "HTML & CSS Basics",
+  why_bootstrap: "Why Bootstrap?",
 
   "-- Setup": {
     title: "Environment Setup",

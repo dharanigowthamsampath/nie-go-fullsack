@@ -5,21 +5,21 @@ const meta = {
   },
   g_index: "Overview",
   why_go: "Why Go?",
-  go_basics: "Go Basics (Syntax, Variables, Data Types)",
 
   "-- Setup": {
     title: "Environment Setup",
     type: "separator",
   },
-  go_installation: "Installing Go & Setting Up Workspace",
-  go_workspace: "Understanding Go Modules & Packages",
+  go_installation: "Installing Go",
+  go_workspace: "Setting Up Workspace",
 
   "-- Fundamentals": {
     title: "Go Fundamentals",
     type: "separator",
   },
-  functions: "Functions & Control Flow",
-  loops: "Loops & Iteration",
+  go_basics: "Go Basics",
+  go_control: "Control Flow",
+  go_functions: "Functions",
   structs_pointers: "Structs & Pointers",
   error_handling: "Error Handling in Go",
 

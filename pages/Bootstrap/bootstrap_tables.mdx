@@ -1,0 +1,347 @@
+# 📌 **Bootstrap Tables - A Beginner's Guide**
+
+Tables are essential for displaying structured data. Bootstrap provides **pre-styled tables** and various customization options to make them visually appealing.
+
+---
+
+## ✅ **1. Basic Bootstrap Table**
+
+Bootstrap tables use the `table` class to add default styling.
+
+### 📌 **Example: Basic Table**
+
+```html copy
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bootstrap Tables</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container mt-4">
+      <h2>Basic Table</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>City</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>John Doe</td>
+            <td>28</td>
+            <td>New York</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Jane Smith</td>
+            <td>22</td>
+            <td>Los Angeles</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
+```
+
+### 🎯 **Explanation:**
+
+- `table` → Adds default Bootstrap table styling.
+- `<thead>` → Defines the table header.
+- `<tbody>` → Contains the table data rows.
+- `<th>` → Defines column headings.
+- `<td>` → Defines table cell data.
+
+---
+
+## ✅ **2. Striped Table (Alternate Row Colors)**
+
+Use `table-striped` to apply alternate row colors.
+
+### 📌 **Example: Striped Table**
+
+```html copy
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>John Doe</td>
+      <td>28</td>
+      <td>New York</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Jane Smith</td>
+      <td>22</td>
+      <td>Los Angeles</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+### 🎯 **Explanation:**
+
+- `table-striped` → Adds a background color to every **odd** row.
+
+---
+
+## ✅ **3. Bordered Table**
+
+Use `table-bordered` to add borders to the table and cells.
+
+### 📌 **Example: Bordered Table**
+
+```html copy
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>John Doe</td>
+      <td>28</td>
+      <td>New York</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+### 🎯 **Explanation:**
+
+- `table-bordered` → Adds **borders** to the table and cells.
+
+---
+
+## ✅ **4. Borderless Table**
+
+Use `table-borderless` to **remove all borders**.
+
+### 📌 **Example: Borderless Table**
+
+```html copy
+<table class="table table-borderless">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>John Doe</td>
+      <td>28</td>
+      <td>New York</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+### 🎯 **Explanation:**
+
+- `table-borderless` → Removes all table borders.
+
+---
+
+## ✅ **5. Hoverable Table (Row Highlight on Hover)**
+
+Use `table-hover` to highlight rows on hover.
+
+### 📌 **Example: Hoverable Table**
+
+```html copy
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>John Doe</td>
+      <td>28</td>
+      <td>New York</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+### 🎯 **Explanation:**
+
+- `table-hover` → Highlights rows when hovered over.
+
+---
+
+## ✅ **6. Small Table (Compact Style)**
+
+Use `table-sm` for a **compact** table with smaller spacing.
+
+### 📌 **Example: Small Table**
+
+```html copy
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>John Doe</td>
+      <td>28</td>
+      <td>New York</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+### 🎯 **Explanation:**
+
+- `table-sm` → Reduces **padding** and **spacing** between rows.
+
+---
+
+## ✅ **7. Contextual Table Colors**
+
+Bootstrap allows **row-based** or **cell-based** color styling.
+
+### 📌 **Example: Colored Rows**
+
+```html copy
+<table class="table">
+  <thead>
+    <tr class="table-primary">
+      <th>#</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>City</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="table-success">
+      <td>1</td>
+      <td>John Doe</td>
+      <td>28</td>
+      <td>New York</td>
+    </tr>
+    <tr class="table-danger">
+      <td>2</td>
+      <td>Jane Smith</td>
+      <td>22</td>
+      <td>Los Angeles</td>
+    </tr>
+  </tbody>
+</table>
+```
+
+### 🎯 **Explanation:**
+
+- `table-primary`, `table-success`, `table-danger`, etc. → Changes the background color of rows.
+
+---
+
+## 🎯 **Final Full Code (Styled Tables)**
+
+```html copy
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bootstrap Styled Tables</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container mt-4">
+      <h2>Bootstrap Styled Tables</h2>
+
+      <h3>Striped Table</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>City</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>John Doe</td>
+            <td>28</td>
+            <td>New York</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Hoverable Table</h3>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>City</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>John Doe</td>
+            <td>28</td>
+            <td>New York</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
+```
+
+---
+
+## 🎯 **Summary**
+
+✅ Bootstrap tables are easy to use.  
+✅ You can **add styles** like striped, bordered, hover effects, and colors.  
+✅ Use `table-sm` for **compact tables**.
+
+Now you can **create beautiful tables** in Bootstrap! 🚀🔥

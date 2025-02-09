@@ -1,0 +1,113 @@
+# **`if-else` Statement in Go**
+
+## **Introduction**
+
+The `if-else` statement in Go allows you to execute one block of code if a condition is **true** and another block if the condition is **false**.
+
+---
+
+## **Syntax of `if-else` Statement**
+
+```go filename="main.go" copy
+if condition {
+    // Code executes if the condition is true
+} else {
+    // Code executes if the condition is false
+}
+```
+
+- If the **condition is true**, the first block runs.
+- If the **condition is false**, the `else` block runs instead.
+
+---
+
+## **Example: Checking Positive or Negative Number**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    num := -5
+
+    if num > 0 {
+        fmt.Println("The number is positive")
+    } else {
+        fmt.Println("The number is not positive")
+    }
+}
+```
+
+### **Explanation**
+
+1. `num := -5` assigns `-5` to `num`.
+2. The condition `num > 0` checks if `num` is greater than zero.
+3. Since `-5` is **not greater than 0**, the condition is **false**.
+4. The `else` block executes and prints `"The number is not positive"`.
+
+---
+
+## **Example: Checking Even or Odd Number**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    num := 7
+
+    if num%2 == 0 {
+        fmt.Println("The number is even")
+    } else {
+        fmt.Println("The number is odd")
+    }
+}
+```
+
+### **Explanation**
+
+1. `num := 7` assigns `7` to `num`.
+2. The condition `num%2 == 0` checks if `num` is divisible by `2`.
+3. Since `7` is **not** divisible by `2`, the condition is **false**.
+4. The `else` block executes and prints `"The number is odd"`.
+
+---
+
+## **Example: Using `if-else` with Short Variable Declaration**
+
+You can declare a variable inside `if`.
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    if age := 16; age >= 18 {
+        fmt.Println("You are an adult")
+    } else {
+        fmt.Println("You are a minor")
+    }
+}
+```
+
+### **Explanation**
+
+1. `age := 16` is **declared inside** `if`.
+2. The condition `age >= 18` checks if age is **18 or older**.
+3. Since `16` is **less than 18**, the condition is **false**.
+4. The `else` block runs and prints `"You are a minor"`.
+5. The variable `age` exists **only inside the `if-else` block**.
+
+---
+
+## **Conclusion**
+
+- The `if-else` statement provides **two execution paths**.
+- The `if` block runs if the condition is **true**.
+- The `else` block runs if the condition is **false**.
+- Short variable declaration inside `if` keeps code clean.
+
+🚀 **Next, we will explore `if-else if-else` for multiple conditions in Go!**

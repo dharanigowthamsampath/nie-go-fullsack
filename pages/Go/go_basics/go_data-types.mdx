@@ -1,0 +1,188 @@
+# **Understanding Data Types in Go**
+
+## **Introduction**
+
+Data types define the kind of values a variable can hold. Go is a statically typed language, meaning variables must have a specific type.
+
+In this blog, we will explore **basic data types in Go** with simple examples like addition, input, and rounding (ceil/floor).
+
+---
+
+## **1. Basic Data Types in Go**
+
+| Type      | Example              | Description                                 |
+| --------- | -------------------- | ------------------------------------------- |
+| `int`     | `var x int = 10`     | Stores whole numbers (e.g., `1, -5, 100`)   |
+| `float64` | `var pi = 3.14`      | Stores decimal numbers (e.g., `3.14, -7.5`) |
+| `string`  | `var name = "Go"`    | Stores text (e.g., `"hello"`, `"world"`)    |
+| `bool`    | `var isGoFun = true` | Stores `true` or `false`                    |
+
+---
+
+## **2. Integer (`int`) Data Type**
+
+### **Example: Adding Two Integers**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    var num1, num2 int = 10, 20
+    sum := num1 + num2
+
+    fmt.Println("Sum:", sum) // Output: Sum: 30
+}
+```
+
+### **Explanation:**
+
+- `num1` and `num2` are declared as `int`.
+- We perform **addition** (`+` operator).
+- `fmt.Println()` prints the result.
+
+---
+
+## **3. Float (`float64`) Data Type**
+
+### **Example: Adding Two Floats**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    var num1, num2 float64 = 3.5, 2.5
+    sum := num1 + num2
+
+    fmt.Println("Sum:", sum) // Output: Sum: 6
+}
+```
+
+### **Explanation:**
+
+- `float64` is used for decimal values.
+- We add two float numbers and print the result.
+
+---
+
+## **4. String (`string`) Data Type**
+
+### **Example: Concatenating Strings**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    var firstName, lastName string = "Alice", "Johnson"
+    fullName := firstName + " " + lastName
+
+    fmt.Println("Full Name:", fullName) // Output: Full Name: Alice Johnson
+}
+```
+
+### **Explanation:**
+
+- `+` operator is used to combine (`concatenate`) strings.
+
+---
+
+## **5. Boolean (`bool`) Data Type**
+
+### **Example: Checking a Condition**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    var isGoEasy bool = true
+
+    if isGoEasy {
+        fmt.Println("Yes, Go is easy!") // Output: Yes, Go is easy!
+    }
+}
+```
+
+### **Explanation:**
+
+- `bool` stores `true` or `false`.
+- We use an `if` condition to check the value.
+
+---
+
+## **6. Taking Input from the User**
+
+### **Example: Taking Integer and String Input**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    var name string
+    var age int
+
+    fmt.Print("Enter your name: ")
+    fmt.Scanln(&name)  // Taking string input
+
+    fmt.Print("Enter your age: ")
+    fmt.Scanln(&age)   // Taking integer input
+
+    fmt.Println("Hello", name, "You are", age, "years old.")
+}
+```
+
+### **Sample Input/Output**
+
+```
+Enter your name: Bob
+Enter your age: 30
+Hello Bob You are 30 years old.
+```
+
+---
+
+## **7. Using `math` Package (Ceil & Floor)**
+
+Go provides the `math` package for **mathematical operations**.
+
+### **Example: Using `math.Ceil()` and `math.Floor()`**
+
+```go filename="main.go" copy
+package main
+
+import (
+    "fmt"
+    "math"
+)
+
+func main() {
+    var num float64 = 4.7
+
+    fmt.Println("Ceil:", math.Ceil(num))   // Output: Ceil: 5
+    fmt.Println("Floor:", math.Floor(num)) // Output: Floor: 4
+}
+```
+
+### **Explanation:**
+
+- `math.Ceil(4.7)` → Rounds **up** to `5`.
+- `math.Floor(4.7)` → Rounds **down** to `4`.
+
+---
+
+## **Conclusion**
+
+- Go has basic types: `int`, `float64`, `string`, `bool`.
+- `+` is used for addition (numbers) and concatenation (strings).
+- `fmt.Scanln()` is used for user input.
+- `math.Ceil()` and `math.Floor()` help with rounding numbers.
+
+Now that you understand data types, **next, we'll explore operators in Go!** 🚀

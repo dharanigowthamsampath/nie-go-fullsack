@@ -1,0 +1,211 @@
+# **Switch Statement in Go**
+
+## **Introduction**
+
+The `switch` statement in Go is used for **multi-way branching**.
+
+- It checks a **variable’s value** against multiple cases.
+- It is an alternative to multiple `if-else if` conditions.
+- Unlike other languages, Go’s `switch` **does not require `break` statements**.
+
+---
+
+## **Syntax of `switch` Statement**
+
+```go filename="main.go" copy
+switch variable {
+case value1:
+    // Code for value1
+case value2:
+    // Code for value2
+default:
+    // Code if no case matches
+}
+```
+
+### **Explanation**
+
+1. The `switch` statement **checks the value** of `variable`.
+2. If `variable == value1`, it executes **case value1’s block**.
+3. If `variable == value2`, it executes **case value2’s block**.
+4. If no case matches, the **`default` case** executes (optional).
+
+---
+
+## **Example: Simple `switch` Statement**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    day := 3
+
+    switch day {
+    case 1:
+        fmt.Println("Monday")
+    case 2:
+        fmt.Println("Tuesday")
+    case 3:
+        fmt.Println("Wednesday")
+    case 4:
+        fmt.Println("Thursday")
+    case 5:
+        fmt.Println("Friday")
+    case 6:
+        fmt.Println("Saturday")
+    case 7:
+        fmt.Println("Sunday")
+    default:
+        fmt.Println("Invalid day")
+    }
+}
+```
+
+### **Explanation**
+
+- `day` is `3`, so **case 3 executes** and prints `"Wednesday"`.
+- If `day` was `8`, the **`default` case** would print `"Invalid day"`.
+
+**Output:**
+
+```
+Wednesday
+```
+
+---
+
+## **Switch Without an Expression**
+
+- You can use `switch` **without specifying a variable**.
+- It works like multiple `if-else` conditions.
+
+### **Example: Checking Ranges**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    num := 15
+
+    switch {
+    case num < 10:
+        fmt.Println("Small number")
+    case num >= 10 && num <= 20:
+        fmt.Println("Medium number")
+    default:
+        fmt.Println("Large number")
+    }
+}
+```
+
+### **Explanation**
+
+- The `switch` **does not check a specific variable**.
+- Instead, it evaluates **each case as a condition**.
+- Since `num = 15`, **case `num >= 10 && num <= 20` executes**.
+
+**Output:**
+
+```
+Medium number
+```
+
+---
+
+## **Multiple Cases in One Line**
+
+- You can **group cases** that have the same output.
+
+### **Example: Grouping Cases**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    grade := 'B'
+
+    switch grade {
+    case 'A', 'B', 'C':
+        fmt.Println("Passed")
+    case 'D', 'E':
+        fmt.Println("Needs Improvement")
+    default:
+        fmt.Println("Failed")
+    }
+}
+```
+
+### **Explanation**
+
+- `'A'`, `'B'`, `'C'` **share the same case** and print `"Passed"`.
+- `'D'`, `'E'` print `"Needs Improvement"`.
+- Any other grade prints `"Failed"`.
+- Since `grade = 'B'`, **"Passed" is printed**.
+
+**Output:**
+
+```
+Passed
+```
+
+---
+
+## **Using `fallthrough` (For Forced Execution of Next Case)**
+
+- In Go, `switch` **does not automatically fall through** to the next case.
+- To force the next case to execute, use **`fallthrough`**.
+
+### **Example: `fallthrough` in Action**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    num := 2
+
+    switch num {
+    case 1:
+        fmt.Println("One")
+    case 2:
+        fmt.Println("Two")
+        fallthrough
+    case 3:
+        fmt.Println("Three")
+    default:
+        fmt.Println("Other number")
+    }
+}
+```
+
+### **Explanation**
+
+- `num = 2`, so `"Two"` is printed.
+- Because of `fallthrough`, **case 3 also executes**, printing `"Three"`.
+- If there was **no `fallthrough`**, case 3 **would be skipped**.
+
+**Output:**
+
+```
+Two
+Three
+```
+
+---
+
+## **Conclusion**
+
+- `switch` **compares a variable** with multiple values.
+- **No need for `break`**, unlike C/Java/Python.
+- `switch` can **be used without an expression**.
+- **Multiple cases** can be combined.
+- Use **`fallthrough`** if you want to execute the next case.
+
+🚀 **Next, we will explore `functions` in Go!**

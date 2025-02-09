@@ -1,0 +1,184 @@
+# **`range` in Go**
+
+## **Introduction**
+
+The `range` keyword in Go is used with loops to iterate over **arrays, slices, maps, and strings**.
+
+- It simplifies iteration by **automatically handling indexes and values**.
+- Returns **two values**:
+  1. **Index** (or key for maps)
+  2. **Value**
+
+---
+
+## **Syntax of `range`**
+
+```go filename="main.go" copy
+for index, value := range collection {
+    // Code inside loop
+}
+```
+
+### **Explanation**
+
+- `collection` can be an **array, slice, string, or map**.
+- `index` holds the **position** of the element.
+- `value` holds the **actual value** at that position.
+- If **index is not needed**, use `_` (underscore).
+
+---
+
+## **Example: Iterating Over an Array**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    numbers := [5]int{10, 20, 30, 40, 50}
+
+    for index, value := range numbers {
+        fmt.Printf("Index: %d, Value: %d\n", index, value)
+    }
+}
+```
+
+**Output:**
+
+```
+Index: 0, Value: 10
+Index: 1, Value: 20
+Index: 2, Value: 30
+Index: 3, Value: 40
+Index: 4, Value: 50
+```
+
+### **Explanation**
+
+- `numbers` is an **array** of size 5.
+- `range` loops through the array, **printing index and value**.
+
+---
+
+## **Example: Iterating Over a Slice**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    fruits := []string{"Apple", "Banana", "Cherry"}
+
+    for i, fruit := range fruits {
+        fmt.Printf("Index: %d, Fruit: %s\n", i, fruit)
+    }
+}
+```
+
+**Output:**
+
+```
+Index: 0, Fruit: Apple
+Index: 1, Fruit: Banana
+Index: 2, Fruit: Cherry
+```
+
+### **Explanation**
+
+- `fruits` is a **slice** (dynamic array).
+- `range` loops through each fruit, printing **index and value**.
+
+---
+
+## **Example: Iterating Over a String (Character-wise)**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    word := "GoLang"
+
+    for index, char := range word {
+        fmt.Printf("Index: %d, Character: %c\n", index, char)
+    }
+}
+```
+
+**Output:**
+
+```
+Index: 0, Character: G
+Index: 1, Character: o
+Index: 2, Character: L
+Index: 3, Character: a
+Index: 4, Character: n
+Index: 5, Character: g
+```
+
+### **Explanation**
+
+- `range` iterates over each **rune (character)** in the string.
+- `%c` prints the character.
+
+---
+
+## **Example: Iterating Over a Map (Key-Value Pairs)**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    scores := map[string]int{"Alice": 85, "Bob": 90, "Charlie": 78}
+
+    for name, score := range scores {
+        fmt.Printf("%s's Score: %d\n", name, score)
+    }
+}
+```
+
+**Output:**
+
+```
+Alice's Score: 85
+Bob's Score: 90
+Charlie's Score: 78
+```
+
+### **Explanation**
+
+- `range` retrieves **keys and values** from the map.
+- It prints **name and score**.
+
+---
+
+## **Ignoring the Index or Value**
+
+### **Example: Ignoring the Index**
+
+```go filename="main.go" copy
+for _, value := range numbers {
+    fmt.Println(value) // Prints values only
+}
+```
+
+### **Example: Ignoring the Value**
+
+```go filename="main.go" copy
+for index := range numbers {
+    fmt.Println(index) // Prints indexes only
+}
+```
+
+---
+
+## **Conclusion**
+
+- `range` simplifies iteration for **arrays, slices, strings, and maps**.
+- Returns **index & value** (or **key & value** for maps).
+- Use `_` (underscore) to **ignore** unwanted values.

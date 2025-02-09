@@ -1,0 +1,215 @@
+# **Understanding Variables in Go**
+
+## **Introduction**
+
+A **variable** is a named storage location in memory that holds a value. In Go, variables have a type and can store different kinds of data such as integers, strings, or floating-point numbers.
+
+In this blog, we’ll explore **how to declare and use variables in Go**, along with example programs and step-by-step explanations.
+
+---
+
+## **Declaring Variables in Go**
+
+Go provides **three** ways to declare variables:
+
+### **1. Using the `var` Keyword (Explicit Type)**
+
+```go filename="main.go" copy
+var name string = "Go Language"
+```
+
+- The `var` keyword is used for declaring a variable.
+- We specify the **name**, **type**, and an **initial value**.
+
+### **2. Using Type Inference**
+
+```go filename="main.go" copy
+var age = 25
+```
+
+- If we don’t specify the type, Go **infers** it from the assigned value.
+
+### **3. Short Variable Declaration (`:=`)**
+
+```go filename="main.go" copy
+message := "Hello, Go!"
+```
+
+- The `:=` operator is used **inside functions only**.
+- It automatically determines the type based on the assigned value.
+
+---
+
+## **Example 1: Declaring and Printing Variables in Go**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    var name string = "Alice"  // Declaring with explicit type
+    age := 25                  // Using short declaration
+    var country = "India"       // Type inference
+
+    fmt.Println("Name:", name)
+    fmt.Println("Age:", age)
+    fmt.Println("Country:", country)
+}
+```
+
+### **Step-by-Step Explanation**
+
+1. **Declares a string variable** (`name`) using `var` and assigns `"Alice"`.
+2. **Declares an integer** (`age`) using `:=`, where Go infers it as `int`.
+3. **Declares another variable** (`country`) without specifying the type.
+4. **Prints the values** using `fmt.Println()`.
+
+### **Output:**
+
+```
+Name: Alice
+Age: 25
+Country: India
+```
+
+---
+
+## **Multiple Variable Declarations**
+
+You can declare multiple variables in a single line:
+
+### **1. Declaring Multiple Variables Individually**
+
+```go filename="main.go" copy
+var x, y int = 10, 20
+var name, city = "Alice", "New York"
+```
+
+### **2. Using Short Declaration**
+
+```go filename="main.go" copy
+a, b, c := 5, "Hello", 3.14
+```
+
+### **3. Declaring Variables in a Block**
+
+```go filename="main.go" copy
+var (
+    firstName = "John"
+    lastName  = "Doe"
+    age       = 30
+)
+```
+
+---
+
+## **Variable Types in Go**
+
+| Type      | Example              | Description                     |
+| --------- | -------------------- | ------------------------------- |
+| `int`     | `var x int = 10`     | Stores integers                 |
+| `float64` | `var pi = 3.14`      | Stores floating-point numbers   |
+| `string`  | `var name = "Go"`    | Stores text data                |
+| `bool`    | `var isGoFun = true` | Stores `true` or `false` values |
+
+---
+
+## **Example 2: Using Different Data Types in Go**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    var age int = 30
+    var height float64 = 5.9
+    var isStudent bool = false
+    var language string = "Go"
+
+    fmt.Println("Age:", age)
+    fmt.Println("Height:", height)
+    fmt.Println("Is a Student:", isStudent)
+    fmt.Println("Programming Language:", language)
+}
+```
+
+### **Output:**
+
+```
+Age: 30
+Height: 5.9
+Is a Student: false
+Programming Language: Go
+```
+
+---
+
+## **Constant Variables (`const`)**
+
+- `const` is used to declare **unchangeable** variables.
+- Constants **must** be assigned a value at the time of declaration.
+
+### **Example: Using Constants in Go**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    const pi = 3.14159
+    fmt.Println("Value of Pi:", pi)
+
+    // pi = 3.14  // ❌ This will cause an error because constants cannot be changed.
+}
+```
+
+### **Output:**
+
+```
+Value of Pi: 3.14159
+```
+
+---
+
+## **Example 3: User Input with Variables**
+
+We can take user input and store it in variables using `fmt.Scanln()`.
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    var name string
+    var age int
+
+    fmt.Print("Enter your name: ")
+    fmt.Scanln(&name)  // Taking string input
+
+    fmt.Print("Enter your age: ")
+    fmt.Scanln(&age)   // Taking integer input
+
+    fmt.Println("Hello", name, "You are", age, "years old.")
+}
+```
+
+### **Sample Input/Output**
+
+```
+Enter your name: Alice
+Enter your age: 25
+Hello Alice You are 25 years old.
+```
+
+---
+
+## **Conclusion**
+
+- Go provides multiple ways to **declare variables** (`var`, `:=`, constants).
+- Variable types include `int`, `float64`, `string`, and `bool`.
+- Constants (`const`) cannot be changed after declaration.
+- We can take user input using `fmt.Scanln()`.

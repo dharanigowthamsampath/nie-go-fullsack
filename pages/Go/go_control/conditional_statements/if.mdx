@@ -1,0 +1,108 @@
+# **`if` Statement in Go**
+
+## **Introduction**
+
+The `if` statement in Go is used for decision-making. It checks a condition and executes a block of code only if the condition is **true**.
+
+---
+
+## **Syntax of `if` Statement**
+
+```go filename="main.go" copy
+if condition {
+    // Code to execute if the condition is true
+}
+```
+
+- The **condition** must return a boolean (`true` or `false`).
+- The block inside `{}` executes only if the condition is `true`.
+- If the condition is `false`, nothing happens.
+
+---
+
+## **Example: Checking a Positive Number**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    num := 10
+
+    if num > 0 {
+        fmt.Println("The number is positive")
+    }
+}
+```
+
+### **Explanation**
+
+1. The variable `num` is assigned `10`.
+2. The condition `num > 0` is checked.
+3. Since `10` is greater than `0`, the condition is **true**.
+4. The statement inside `if` executes, printing `"The number is positive"`.
+
+If `num` were negative or `0`, nothing would print because the `if` condition would be **false**.
+
+---
+
+## **Example: Checking Even Number**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    num := 8
+
+    if num%2 == 0 {
+        fmt.Println("The number is even")
+    }
+}
+```
+
+### **Explanation**
+
+1. `num := 8` assigns `8` to `num`.
+2. The condition `num%2 == 0` checks if `num` is divisible by `2`.
+3. Since `8` is even, the condition is **true**.
+4. `"The number is even"` is printed.
+
+---
+
+## **Example: Using `if` with Short Variable Declaration**
+
+Go allows you to declare a variable inside `if`.
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    if age := 20; age >= 18 {
+        fmt.Println("You are an adult")
+    }
+}
+```
+
+### **Explanation**
+
+1. `age := 20` is **declared inside** `if`.
+2. The condition `age >= 18` checks if the age is **18 or older**.
+3. Since `20` is greater than `18`, the condition is **true**.
+4. `"You are an adult"` is printed.
+5. The variable `age` exists **only inside the `if` block**.
+
+---
+
+## **Conclusion**
+
+- The `if` statement is used for conditional execution.
+- The condition must return `true` or `false`.
+- If the condition is `false`, the code inside `{}` is skipped.
+- You can declare a variable inside `if`.
+
+🚀 **Next, we will explore more control flow statements in Go!**

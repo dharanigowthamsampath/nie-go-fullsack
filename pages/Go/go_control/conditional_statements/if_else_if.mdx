@@ -1,0 +1,123 @@
+# **`if-else if-else` Statement in Go**
+
+## **Introduction**
+
+The `if-else if-else` statement in Go allows checking **multiple conditions**.
+
+- The **first condition** that evaluates to `true` executes its block.
+- If **none** of the conditions are `true`, the `else` block executes.
+
+---
+
+## **Syntax of `if-else if-else` Statement**
+
+```go filename="main.go" copy
+if condition1 {
+    // Code executes if condition1 is true
+} else if condition2 {
+    // Code executes if condition1 is false but condition2 is true
+} else {
+    // Code executes if both condition1 and condition2 are false
+}
+```
+
+- Only **one block executes** based on the first `true` condition.
+- If **no condition is true**, the `else` block executes.
+
+---
+
+## **Example: Checking Number Type (Positive, Negative, or Zero)**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    num := 0
+
+    if num > 0 {
+        fmt.Println("The number is positive")
+    } else if num < 0 {
+        fmt.Println("The number is negative")
+    } else {
+        fmt.Println("The number is zero")
+    }
+}
+```
+
+### **Explanation**
+
+1. `num := 0` assigns `0` to `num`.
+2. The first condition `num > 0` is **false**.
+3. The second condition `num < 0` is also **false**.
+4. Since both conditions failed, the `else` block executes and prints `"The number is zero"`.
+
+---
+
+## **Example: Grading System (A, B, C, Fail)**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    marks := 75
+
+    if marks >= 90 {
+        fmt.Println("Grade: A")
+    } else if marks >= 75 {
+        fmt.Println("Grade: B")
+    } else if marks >= 50 {
+        fmt.Println("Grade: C")
+    } else {
+        fmt.Println("Grade: Fail")
+    }
+}
+```
+
+### **Explanation**
+
+1. `marks := 75` assigns `75` to `marks`.
+2. The first condition `marks >= 90` is **false**.
+3. The second condition `marks >= 75` is **true**, so `"Grade: B"` is printed.
+4. The `else if` and `else` blocks are **skipped** because only one block executes.
+
+---
+
+## **Example: Using `if-else if-else` with Short Variable Declaration**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    if age := 20; age < 13 {
+        fmt.Println("You are a child")
+    } else if age < 20 {
+        fmt.Println("You are a teenager")
+    } else {
+        fmt.Println("You are an adult")
+    }
+}
+```
+
+### **Explanation**
+
+1. `age := 20` is **declared inside** `if`.
+2. The first condition `age < 13` is **false**.
+3. The second condition `age < 20` is **false**.
+4. Since both conditions failed, the `else` block executes and prints `"You are an adult"`.
+
+---
+
+## **Conclusion**
+
+- `if-else if-else` checks **multiple conditions**.
+- The **first `true` condition** executes its block.
+- If **no condition is true**, the `else` block runs.
+- Short variable declaration inside `if` helps keep the code clean.
+
+🚀 **Next, we will explore `switch` statements in Go!**

@@ -1,0 +1,112 @@
+# **Simple Hello World Program in Go**
+
+## **Introduction**
+
+Go (also known as Golang) is a statically typed, compiled programming language designed for simplicity and efficiency. It is widely used for system programming, cloud applications, and web development due to its speed and concurrency support.
+
+In this blog, we will write a simple **"Hello, World!"** program in Go and explain its components step by step.
+
+---
+
+## **Writing Your First Go Program**
+
+To begin, create a new file called `main.go` and add the following code:
+
+### **Code: Hello World in Go**
+
+```go filename="main.go" copy
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, World!")
+}
+```
+
+Now, let’s break down each part of the program.
+
+---
+
+## **Explanation of the Code**
+
+### **1. `package main`**
+
+```go filename="main.go" copy
+package main
+```
+
+- In Go, every program is organized into packages.
+- The `main` package is the entry point of every standalone Go application.
+- Without this, the Go compiler won’t know where to start execution.
+
+### **2. `import "fmt"`**
+
+```go filename="main.go" copy
+import "fmt"
+```
+
+- `import` is used to include built-in or third-party packages in a Go program.
+- The `"fmt"` package stands for **format** and provides functions for formatted I/O (input and output).
+- Here, we use it to print text to the console.
+
+### **3. `func main()`**
+
+```go filename="main.go" copy
+func main() {
+```
+
+- The `main` function is the starting point of execution in a Go program.
+- Every Go program must have a `main()` function inside the `main` package.
+- Without this function, the program won’t run.
+
+### **4. Printing to the Console**
+
+```go filename="main.go" copy
+    fmt.Println("Hello, World!")
+```
+
+- `fmt.Println()` is used to print text to the console.
+- `"Hello, World!"` is the message that will be displayed when the program runs.
+- `Println` adds a new line (`\n`) at the end of the output automatically.
+
+---
+
+## **Running the Program**
+
+### **Step 1: Install Go (if not installed)**
+
+- Download and install Go from the official site: [https://go.dev/dl/](https://go.dev/dl/).
+- Verify installation by running:
+  ```
+  go version
+  ```
+  If Go is installed correctly, you’ll see the installed version.
+
+### **Step 2: Save the File**
+
+- Save your program as `main.go`.
+
+### **Step 3: Run the Program**
+
+- Open a terminal and navigate to the folder containing `main.go`.
+- Run the program using:
+  ```
+  go run main.go
+  ```
+- Output:
+  ```
+  Hello, World!
+  ```
+
+---
+
+## **Conclusion**
+
+Congratulations! 🎉 You’ve successfully written and executed your first Go program.
+
+This simple **"Hello, World!"** program introduced key concepts such as **packages, imports, functions, and printing output** in Go. In upcoming lessons, we will explore variables, data types, loops, and more.
+
+Stay tuned and happy coding! 🚀
+
+Would you like me to add more details, such as common errors and troubleshooting tips? 😊
