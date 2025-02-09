@@ -15,7 +15,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Developer Docs",
+  title: "Go App",
   description:
     "A free and open resource for developers, providing comprehensive documentation for all programming languages, built by developers for developers.",
   keywords: "developer, documentation, programming languages, resources",

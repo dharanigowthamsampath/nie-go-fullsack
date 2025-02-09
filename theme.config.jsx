@@ -4,7 +4,7 @@ export default {
   logo: (
     <div style={{ display: "flex", alignItems: "center" }}>
       <Terminal style={{ marginRight: "8px" }} />
-      <span style={{ fontWeight: "bold" }}>Developer Docs</span>
+      <span style={{ fontWeight: "bold" }}>Go App</span>
     </div>
   ),
   project: {

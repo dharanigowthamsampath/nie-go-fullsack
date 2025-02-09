@@ -6,9 +6,8 @@ export default function PrivacyPolicy() {
       <section>
         <h2 className="text-2xl font-semibold mt-8 mb-4">Introduction</h2>
         <p>
-          Welcome to Developer Docs. This Privacy Policy explains how we
-          collect, use, disclose, and safeguard your information when you visit
-          our website.
+          Welcome to Go App. This Privacy Policy explains how we collect, use,
+          disclose, and safeguard your information when you visit our website.
         </p>
       </section>
 

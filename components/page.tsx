@@ -20,7 +20,7 @@ export function BlockPage() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <Link href="/" className="text-white text-xl font-bold">
-                Developer Docs
+                Go App
               </Link>
               <div className="hidden md:block ml-10">
                 <div className="flex items-center space-x-4">
@@ -325,7 +325,7 @@ export function BlockPage() {
               </Link>
             </div>
             <p className="text-center text-gray-400">
-              © {new Date().getFullYear()} Developer Docs. All rights reserved.
+              © {new Date().getFullYear()} Go App. All rights reserved.
             </p>
           </div>
         </div>

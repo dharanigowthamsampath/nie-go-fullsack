@@ -8,7 +8,7 @@ export default function TermsOfUse() {
           Acceptance of Terms
         </h2>
         <p>
-          By accessing Developer Docs, you agree to these Terms of Use and all
+          By accessing Go App, you agree to these Terms of Use and all
           applicable laws and regulations.
         </p>
       </section>

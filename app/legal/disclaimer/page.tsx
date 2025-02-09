@@ -6,8 +6,8 @@ export default function Disclaimer() {
       <section>
         <h2 className="text-2xl font-semibold mt-8 mb-4">General Disclaimer</h2>
         <p>
-          The information provided on Developer Docs is for general
-          informational purposes only. While we strive for accuracy, we make no
+          The information provided on Go App is for general informational
+          purposes only. While we strive for accuracy, we make no
           representations or warranties about the completeness, reliability, or
           suitability of the information.
         </p>

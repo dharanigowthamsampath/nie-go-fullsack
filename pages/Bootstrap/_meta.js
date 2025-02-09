@@ -12,7 +12,6 @@ const meta = {
     type: "separator",
   },
   bootstrap_setup: "Setting up Bootstrap",
-  bootstrap_cdn: "Using Bootstrap via CDN",
   exploring_docs: "Exploring Bootstrap Documentation",
 
   "-- Bootstrap Components": {
