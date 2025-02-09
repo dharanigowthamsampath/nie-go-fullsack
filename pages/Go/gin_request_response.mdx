@@ -1,25 +1,196 @@
----
-title: "Handling Requests & Responses"
+# **Handling Request and Response in Go (Gin Framework)**
+
+## **Introduction**
+
+In **Go**, handling HTTP requests and responses is essential for building APIs. The **Gin framework** makes it simple and efficient.
+
+### **What We’ll Cover:**
+
+✅ Handling **GET** and **POST** requests  
+✅ Sending **JSON responses**  
+✅ Handling **query parameters** and **form data**
+
 ---
 
-# Handling Requests & Responses
+## **1️⃣ Handling GET Requests**
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Handling Requests & Responses</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Handling Requests & Responses goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+A **GET request** is used to retrieve data.  
+Example: Fetching a user’s details.
+
+### **Example: Simple GET Request**
+
+```go filename="main.go" copy
+package main
+
+import (
+    "github.com/gin-gonic/gin"
+)
+
+func main() {
+    router := gin.Default()
+
+    // Define GET route
+    router.GET("/user", func(c *gin.Context) {
+        c.JSON(200, gin.H{"message": "User details fetched successfully!"})
+    })
+
+    router.Run(":8080") // Start the server
+}
+```
+
+### **Test in Browser**
+
+👉 **Visit:** `http://localhost:8080/user`  
+👉 **Output:**
+
+```json
+{ "message": "User details fetched successfully!" }
+```
+
+---
+
+## **2️⃣ Handling Query Parameters**
+
+Query parameters allow us to **pass values in the URL**.
+
+### **Example: Get User Details with Query Parameters**
+
+```go filename="main.go" copy
+router.GET("/user", func(c *gin.Context) {
+    name := c.Query("name") // Extract name from query parameter
+    age := c.Query("age")   // Extract age
+
+    c.JSON(200, gin.H{
+        "name": name,
+        "age":  age,
+    })
+})
+```
+
+### **Test in Browser**
+
+👉 **Visit:** `http://localhost:8080/user?name=Dharani&age=25`  
+👉 **Output:**
+
+```json
+{ "name": "Dharani", "age": "25" }
+```
+
+---
+
+## **3️⃣ Handling POST Requests**
+
+A **POST request** is used to send data to the server (e.g., form submissions).
+
+### **Example: Handling a POST Request with JSON Data**
+
+```go filename="main.go" copy
+router.POST("/create-user", func(c *gin.Context) {
+    var user struct {
+        Name string `json:"name"`
+        Age  int    `json:"age"`
+    }
+
+    if err := c.BindJSON(&user); err != nil {
+        c.JSON(400, gin.H{"error": "Invalid JSON format"})
+        return
+    }
+
+    c.JSON(200, gin.H{"message": "User created successfully!", "user": user})
+})
+```
+
+### **Test with Postman or Curl**
+
+👉 **Send POST request to:** `http://localhost:8080/create-user`  
+👉 **Body (JSON format):**
+
+```json
+{
+  "name": "Dharani",
+  "age": 25
+}
+```
+
+👉 **Response:**
+
+```json
+{
+  "message": "User created successfully!",
+  "user": {
+    "name": "Dharani",
+    "age": 25
+  }
+}
+```
+
+---
+
+## **4️⃣ Handling Form Data (POST Method)**
+
+If you send data from a **HTML form**, you need to use `c.PostForm()`.
+
+### **Example: Handling Form Data**
+
+```go filename="main.go" copy
+router.POST("/submit", func(c *gin.Context) {
+    name := c.PostForm("name")
+    email := c.PostForm("email")
+
+    c.JSON(200, gin.H{
+        "name":  name,
+        "email": email,
+    })
+})
+```
+
+### **Test with Postman or HTML Form**
+
+👉 **Form Fields:**
+
+- `name = Dharani`
+- `email = dharani@example.com`
+
+👉 **Response:**
+
+```json
+{
+  "name": "Dharani",
+  "email": "dharani@example.com"
+}
+```
+
+---
+
+## **5️⃣ Sending Custom Responses**
+
+You can customize responses using `c.JSON()`, `c.String()`, or `c.XML()`.
+
+### **Example: Sending Different Responses**
+
+```go filename="main.go" copy
+router.GET("/response", func(c *gin.Context) {
+    c.JSON(200, gin.H{"message": "This is a JSON response"})
+})
+```
+
+```go filename="main.go" copy
+router.GET("/text", func(c *gin.Context) {
+    c.String(200, "This is a plain text response")
+})
+```
+
+```go filename="main.go" copy
+router.GET("/xml", func(c *gin.Context) {
+    c.XML(200, gin.H{"message": "This is an XML response"})
+})
+```
+
+---
+
+## **Summary**
+
+✅ **GET Requests** → Fetching data  
+✅ **Query Parameters** → Extracting values from the URL  
+✅ **POST Requests** → Sending data (JSON, Form)  
+✅ **Custom Responses** → JSON, Text, XML

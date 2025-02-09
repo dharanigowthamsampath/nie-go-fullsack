@@ -1,25 +1,244 @@
----
-title: "Making HTTP Requests in Go"
+# **Handling HTTP Requests in Go**
+
+## **Introduction**
+
+Go provides the `net/http` package to work with HTTP requests. This allows us to fetch data from APIs, send data, and interact with web services.
+
+In this tutorial, we'll cover:  
+✅ **Types of HTTP Requests**  
+✅ **Making a GET request** (Fetching JSON from an API)  
+✅ **Making a POST request** (Sending JSON data)
+
 ---
 
-# Making HTTP Requests in Go
+## **Types of HTTP Requests**
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Making HTTP Requests in Go</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Making HTTP Requests in Go goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+HTTP methods define what action we want to perform on a resource. The most commonly used methods are:
+
+| Method     | Description            |
+| ---------- | ---------------------- |
+| **GET**    | Fetch data from an API |
+| **POST**   | Send data to an API    |
+| **PUT**    | Update existing data   |
+| **DELETE** | Remove a resource      |
+
+---
+
+## **Making a GET Request (Fetching JSON Data)**
+
+### **Example: Fetching JSON from a Dummy API**
+
+We will fetch user data from a dummy API: [https://jsonplaceholder.typicode.com/users](https://jsonplaceholder.typicode.com/users).
+
+### **Code**
+
+```go filename="main.go" copy
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+    "io"
+    "net/http"
+)
+
+// Define a struct to match JSON response
+type User struct {
+    ID       int    `json:"id"`
+    Name     string `json:"name"`
+    Username string `json:"username"`
+    Email    string `json:"email"`
+}
+
+func main() {
+    // API URL
+    url := "https://jsonplaceholder.typicode.com/users"
+
+    // Make HTTP GET request
+    response, err := http.Get(url)
+    if err != nil {
+        fmt.Println("Error fetching data:", err)
+        return
+    }
+    defer response.Body.Close() // Ensure response body is closed after use
+
+    // Read response body
+    body, err := io.ReadAll(response.Body)
+    if err != nil {
+        fmt.Println("Error reading response:", err)
+        return
+    }
+
+    // Convert JSON to Go struct
+    var users []User
+    err = json.Unmarshal(body, &users)
+    if err != nil {
+        fmt.Println("Error decoding JSON:", err)
+        return
+    }
+
+    // Print the first user's details
+    fmt.Println("First User:")
+    fmt.Println("Name:", users[0].Name)
+    fmt.Println("Username:", users[0].Username)
+    fmt.Println("Email:", users[0].Email)
+}
+```
+
+### **Step-by-Step Explanation**
+
+1. **Make an HTTP GET request** using `http.Get(url)`.
+2. **Read the response body** using `io.ReadAll(response.Body)`.
+3. **Define a `User` struct** matching JSON keys.
+4. **Use `json.Unmarshal()`** to parse JSON into a Go slice (`[]User`).
+5. **Print extracted data** from the JSON response.
+
+---
+
+## **Making a POST Request (Sending JSON Data)**
+
+### **Example: Sending JSON Data to an API**
+
+We will send a JSON object using an HTTP POST request.
+
+### **Code**
+
+```go filename="main.go" copy
+package main
+
+import (
+    "bytes"
+    "encoding/json"
+    "fmt"
+    "net/http"
+)
+
+// Define struct for data to send
+type PostData struct {
+    Title  string `json:"title"`
+    Body   string `json:"body"`
+    UserID int    `json:"userId"`
+}
+
+func main() {
+    // API URL
+    url := "https://jsonplaceholder.typicode.com/posts"
+
+    // Create data to send
+    postData := PostData{
+        Title:  "Go HTTP Request",
+        Body:   "Learning how to send a POST request in Go.",
+        UserID: 1,
+    }
+
+    // Convert struct to JSON
+    jsonData, err := json.Marshal(postData)
+    if err != nil {
+        fmt.Println("Error encoding JSON:", err)
+        return
+    }
+
+    // Make POST request
+    response, err := http.Post(url, "application/json", bytes.NewBuffer(jsonData))
+    if err != nil {
+        fmt.Println("Error sending request:", err)
+        return
+    }
+    defer response.Body.Close()
+
+    // Print response status
+    fmt.Println("Response Status:", response.Status)
+}
+```
+
+### **Step-by-Step Explanation**
+
+1. **Define a struct (`PostData`)** to match JSON format.
+2. **Create an instance of `PostData`** with sample values.
+3. **Convert struct to JSON** using `json.Marshal()`.
+4. **Use `http.Post()`** to send the request with JSON data.
+5. **Print the response status** to verify if the request was successful.
+
+---
+
+## **Handling Other HTTP Methods**
+
+For **PUT, DELETE**, we use `http.NewRequest()` instead of `http.Get()` or `http.Post()`.
+
+### **Example: Sending a PUT Request (Updating Data)**
+
+```go filename="main.go" copy
+package main
+
+import (
+    "bytes"
+    "encoding/json"
+    "fmt"
+    "net/http"
+)
+
+func main() {
+    url := "https://jsonplaceholder.typicode.com/posts/1"
+
+    // Data to update
+    data := map[string]string{"title": "Updated Title"}
+    jsonData, _ := json.Marshal(data)
+
+    // Create a PUT request
+    req, _ := http.NewRequest(http.MethodPut, url, bytes.NewBuffer(jsonData))
+    req.Header.Set("Content-Type", "application/json")
+
+    // Send request
+    client := &http.Client{}
+    res, err := client.Do(req)
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+    defer res.Body.Close()
+
+    fmt.Println("Response Status:", res.Status)
+}
+```
+
+### **Example: Sending a DELETE Request**
+
+```go filename="main.go" copy
+package main
+
+import (
+    "fmt"
+    "net/http"
+)
+
+func main() {
+    url := "https://jsonplaceholder.typicode.com/posts/1"
+
+    // Create a DELETE request
+    req, _ := http.NewRequest(http.MethodDelete, url, nil)
+
+    // Send request
+    client := &http.Client{}
+    res, err := client.Do(req)
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+    defer res.Body.Close()
+
+    fmt.Println("Response Status:", res.Status)
+}
+```
+
+---
+
+## **Summary**
+
+✅ **GET** → Fetch data using `http.Get()`.  
+✅ **POST** → Send JSON using `http.Post()`.  
+✅ **PUT** → Update data using `http.NewRequest()`.  
+✅ **DELETE** → Remove data using `http.NewRequest()`.
+
+---
+
+🚀 **Next, we will explore handling HTTP responses and creating our own HTTP server in Go!**

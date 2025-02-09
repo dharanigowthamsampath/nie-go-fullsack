@@ -1,25 +1,181 @@
----
-title: "Error Handling in Go"
+# **Error Handling in Go**
+
+## **Introduction**
+
+Error handling in Go is built-in and follows a simple pattern using the `error` type.
+
+- Go does **not use exceptions** like other languages (Java, Python).
+- Instead, functions **return errors** as values.
+- Errors are handled using **`if` checks** to prevent unexpected failures.
+
 ---
 
-# Error Handling in Go
+## **Syntax of Error Handling in Go**
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Error Handling in Go</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Error Handling in Go goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+```go filename="main.go" copy
+func functionName() (dataType, error) {
+    // Logic
+    return value, errorValue
+}
+```
+
+### **Explanation**
+
+1. The function **returns two values**:
+   - The actual **result** of the function.
+   - An **error** (`nil` if no error).
+2. The caller checks if an **error occurred** and handles it properly.
+
+---
+
+## **Rules for Error Handling in Go**
+
+✅ **Errors are returned, not thrown as exceptions.**  
+✅ **Use `errors.New()` or `fmt.Errorf()` to create errors.**  
+✅ **Check for `nil` before using the returned value.**  
+✅ **Use `panic()` only for unexpected crashes.**  
+✅ **Use `recover()` to handle panics safely.**
+
+---
+
+## **Basic Example: Handling Errors**
+
+### **Code**
+
+```go filename="main.go" copy
+package main
+import (
+    "errors"
+    "fmt"
+)
+
+// Function that returns an error
+func divide(a, b int) (int, error) {
+    if b == 0 {
+        return 0, errors.New("division by zero is not allowed")
+    }
+    return a / b, nil
+}
+
+func main() {
+    result, err := divide(10, 0) // Trying to divide by zero
+    if err != nil {
+        fmt.Println("Error:", err)
+    } else {
+        fmt.Println("Result:", result)
+    }
+}
+```
+
+### **Explanation**
+
+1. `divide(a, b int) (int, error)` → Function returns both **result and error**.
+2. **If `b == 0`**, an error is returned (`errors.New()`).
+3. **Caller checks `err`** before using `result`.
+4. Prevents division by zero errors.
+
+---
+
+## **Example: Using `fmt.Errorf()` for More Detailed Errors**
+
+### **Code**
+
+```go filename="main.go" copy
+package main
+import (
+    "fmt"
+)
+
+// Function with error message formatting
+func getStudentScore(name string) (int, error) {
+    if name != "Alice" {
+        return 0, fmt.Errorf("no record found for student: %s", name)
+    }
+    return 90, nil
+}
+
+func main() {
+    score, err := getStudentScore("Bob")
+    if err != nil {
+        fmt.Println("Error:", err)
+    } else {
+        fmt.Println("Score:", score)
+    }
+}
+```
+
+### **Explanation**
+
+1. `fmt.Errorf()` creates formatted error messages.
+2. Returns `"no record found for student: Bob"`.
+3. Helps provide **detailed** and **custom** error messages.
+
+---
+
+## **Example: Using `panic()` for Critical Errors**
+
+### **Code**
+
+```go filename="main.go" copy
+package main
+import "fmt"
+
+func criticalError() {
+    panic("Critical failure! System shutting down.")
+}
+
+func main() {
+    fmt.Println("Before panic")
+    criticalError() // Program will stop here
+    fmt.Println("After panic") // This line won't run
+}
+```
+
+### **Explanation**
+
+1. `panic()` **stops execution** immediately.
+2. Used for **unexpected failures** (not regular errors).
+3. `"After panic"` **won’t execute** due to the crash.
+
+---
+
+## **Example: Using `recover()` to Handle Panics Safely**
+
+### **Code**
+
+```go filename="main.go" copy
+package main
+import "fmt"
+
+func safeFunction() {
+    defer func() {
+        if r := recover(); r != nil {
+            fmt.Println("Recovered from panic:", r)
+        }
+    }()
+
+    panic("Something went wrong!")
+}
+
+func main() {
+    fmt.Println("Before function call")
+    safeFunction()
+    fmt.Println("After function call")
+}
+```
+
+### **Explanation**
+
+1. `recover()` **captures panics** instead of stopping execution.
+2. `defer` ensures `recover()` runs at the **end of the function**.
+3. `"After function call"` runs, preventing a full crash.
+
+---
+
+## **Summary**
+
+✅ **Go uses returned errors instead of exceptions.**  
+✅ **Use `errors.New()` and `fmt.Errorf()` to create errors.**  
+✅ **Check for `nil` before using returned values.**  
+✅ **Use `panic()` for fatal errors but avoid it when possible.**  
+✅ **Use `recover()` inside `defer` to handle panics safely.**

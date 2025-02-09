@@ -1,25 +1,251 @@
----
-title: "Building a CRUD API with Gin"
+# **Simple CRUD Operations in Go (Using Array as a Database)**
+
+## **Introduction**
+
+CRUD (Create, Read, Update, Delete) operations are essential for any application. In this example, we will implement CRUD operations in **Go** using the **Gin framework** and store the data in an **array** instead of a database.
+
 ---
 
-# Building a CRUD API with Gin
+## **📌 Steps Covered:**
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Building a CRUD API with Gin</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Building a CRUD API with Gin goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+✅ Setting up the **Go server**  
+✅ Implementing **CRUD operations** using an array  
+✅ Handling **GET, POST, PUT, and DELETE** requests
+
+---
+
+## **📌 1️⃣ Setting Up the Project**
+
+### **Install Gin Framework**
+
+If you haven’t installed **Gin**, run:
+
+```sh
+go get -u github.com/gin-gonic/gin
+```
+
+### **Create a new file `main.go`**
+
+```go
+package main
+
+import (
+	"github.com/gin-gonic/gin"
+	"net/http"
+)
+
+// Define a simple struct for storing user data
+type User struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+	Age  int    `json:"age"`
+}
+
+// Mock database using an array
+var users []User
+var nextID = 1
+
+func main() {
+	router := gin.Default()
+
+	// CRUD Routes
+	router.GET("/users", getUsers)       // Read all users
+	router.POST("/users", createUser)    // Create a new user
+	router.PUT("/users/:id", updateUser) // Update a user
+	router.DELETE("/users/:id", deleteUser) // Delete a user
+
+	router.Run(":8080") // Start server on port 8080
+}
+```
+
+---
+
+## **📌 2️⃣ Create (POST) - Add a User**
+
+### **Route:** `/users`
+
+We use **POST** to add a new user to our array.
+
+### **Code:**
+
+```go
+func createUser(c *gin.Context) {
+	var newUser User
+
+	if err := c.BindJSON(&newUser); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid data"})
+		return
+	}
+
+	newUser.ID = nextID // Assign a unique ID
+	nextID++
+	users = append(users, newUser)
+
+	c.JSON(http.StatusCreated, gin.H{"message": "User added successfully", "user": newUser})
+}
+```
+
+### **Test with Postman or Curl**
+
+👉 **POST request to** `http://localhost:8080/users`  
+👉 **Body (JSON format):**
+
+```json
+{
+  "name": "Dharani",
+  "age": 25
+}
+```
+
+👉 **Response:**
+
+```json
+{
+  "message": "User added successfully",
+  "user": {
+    "id": 1,
+    "name": "Dharani",
+    "age": 25
+  }
+}
+```
+
+---
+
+## **📌 3️⃣ Read (GET) - Get All Users**
+
+### **Route:** `/users`
+
+Fetch all users stored in the array.
+
+### **Code:**
+
+```go
+func getUsers(c *gin.Context) {
+	c.JSON(http.StatusOK, users)
+}
+```
+
+### **Test in Browser**
+
+👉 **Visit:** `http://localhost:8080/users`  
+👉 **Response:**
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Dharani",
+    "age": 25
+  }
+]
+```
+
+---
+
+## **📌 4️⃣ Update (PUT) - Modify User Data**
+
+### **Route:** `/users/:id`
+
+Update an existing user’s details using their **ID**.
+
+### **Code:**
+
+```go
+func updateUser(c *gin.Context) {
+	var updatedUser User
+
+	if err := c.BindJSON(&updatedUser); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid data"})
+		return
+	}
+
+	id := c.Param("id")
+
+	// Find the user in the array
+	for i, user := range users {
+		if id == string(rune(user.ID)) { // Convert int to string
+			users[i].Name = updatedUser.Name
+			users[i].Age = updatedUser.Age
+
+			c.JSON(http.StatusOK, gin.H{"message": "User updated", "user": users[i]})
+			return
+		}
+	}
+
+	c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+}
+```
+
+### **Test with Postman**
+
+👉 **PUT request to** `http://localhost:8080/users/1`  
+👉 **Body (JSON format):**
+
+```json
+{
+  "name": "Gowtham",
+  "age": 26
+}
+```
+
+👉 **Response:**
+
+```json
+{
+  "message": "User updated",
+  "user": {
+    "id": 1,
+    "name": "Gowtham",
+    "age": 26
+  }
+}
+```
+
+---
+
+## **📌 5️⃣ Delete (DELETE) - Remove a User**
+
+### **Route:** `/users/:id`
+
+Deletes a user by their **ID**.
+
+### **Code:**
+
+```go
+func deleteUser(c *gin.Context) {
+	id := c.Param("id")
+
+	for i, user := range users {
+		if id == string(rune(user.ID)) { // Convert int to string
+			users = append(users[:i], users[i+1:]...) // Remove user from array
+			c.JSON(http.StatusOK, gin.H{"message": "User deleted"})
+			return
+		}
+	}
+
+	c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+}
+```
+
+### **Test with Postman**
+
+👉 **DELETE request to** `http://localhost:8080/users/1`  
+👉 **Response:**
+
+```json
+{
+  "message": "User deleted"
+}
+```
+
+---
+
+## **📌 Summary**
+
+✅ **POST `/users`** → Add a new user  
+✅ **GET `/users`** → Retrieve all users  
+✅ **PUT `/users/:id`** → Update user details  
+✅ **DELETE `/users/:id`** → Remove a user
+
+🚀 **Now you have a simple CRUD API in Go using an array as a database!** 🎯

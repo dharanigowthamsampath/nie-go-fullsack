@@ -1,25 +1,306 @@
----
-title: "Handling JSON in Go"
+# **Handling JSON Data in Go**
+
+## **Introduction**
+
+JSON (JavaScript Object Notation) is a widely used data format for exchanging data between a server and a client.  
+Go provides the `encoding/json` package to work with JSON data easily.
+
 ---
 
-# Handling JSON in Go
+## **Importing JSON Package**
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Handling JSON in Go</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Handling JSON in Go goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+To work with JSON, **import the package**:
+
+```go filename="main.go" copy
+import "encoding/json"
+```
+
+---
+
+## **Basic Example: Converting Struct to JSON (Marshalling)**
+
+### **Code**
+
+```go filename="main.go" copy
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+)
+
+// Define a struct for data
+type Student struct {
+    Name  string `json:"name"`
+    Age   int    `json:"age"`
+    Grade string `json:"grade"`
+}
+
+func main() {
+    // Create an instance of Student
+    student := Student{Name: "Alice", Age: 20, Grade: "A"}
+
+    // Convert struct to JSON
+    jsonData, err := json.Marshal(student)
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+
+    // Print JSON data as a string
+    fmt.Println(string(jsonData))
+}
+```
+
+### **Step-by-Step Explanation**
+
+1. **Define a struct (`Student`)** with JSON tags (`json:"name"`).
+2. **Create an instance** of `Student` struct.
+3. **Use `json.Marshal()`** to convert struct to JSON.
+4. **Handle errors** and print the JSON output.
+
+---
+
+## **Example: Converting JSON to Struct (Unmarshalling)**
+
+### **Code**
+
+```go filename="main.go" copy
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+)
+
+// Define struct matching JSON structure
+type Student struct {
+    Name  string `json:"name"`
+    Age   int    `json:"age"`
+    Grade string `json:"grade"`
+}
+
+func main() {
+    // JSON string
+    jsonString := `{"name":"Alice", "age":20, "grade":"A"}`
+
+    // Variable to store decoded data
+    var student Student
+
+    // Convert JSON to struct
+    err := json.Unmarshal([]byte(jsonString), &student)
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+
+    // Print struct data
+    fmt.Println("Name:", student.Name)
+    fmt.Println("Age:", student.Age)
+    fmt.Println("Grade:", student.Grade)
+}
+```
+
+### **Step-by-Step Explanation**
+
+1. **Create a JSON string** with key-value pairs.
+2. **Define a struct** to store JSON data.
+3. **Use `json.Unmarshal()`** to convert JSON to Go struct.
+4. **Print the extracted data** from the struct.
+
+---
+
+## **Example: Handling JSON Arrays**
+
+### **Code**
+
+```go filename="main.go" copy
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+)
+
+// Define a struct
+type Student struct {
+    Name  string `json:"name"`
+    Age   int    `json:"age"`
+    Grade string `json:"grade"`
+}
+
+func main() {
+    // JSON array as a string
+    jsonArray := `[{"name":"Alice", "age":20, "grade":"A"}, {"name":"Bob", "age":22, "grade":"B"}]`
+
+    // Variable to store decoded data
+    var students []Student
+
+    // Convert JSON array to struct slice
+    err := json.Unmarshal([]byte(jsonArray), &students)
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+
+    // Print data
+    for _, student := range students {
+        fmt.Println("Name:", student.Name, "| Age:", student.Age, "| Grade:", student.Grade)
+    }
+}
+```
+
+### **Step-by-Step Explanation**
+
+1. **Create a JSON array** (list of objects).
+2. **Define a slice (`[]Student`)** to store multiple objects.
+3. **Use `json.Unmarshal()`** to convert JSON array to struct slice.
+4. **Loop through the slice** to print details.
+
+---
+
+## **Example: Encoding Map to JSON**
+
+### **Code**
+
+```go filename="main.go" copy
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+)
+
+func main() {
+    // Create a map
+    student := map[string]interface{}{
+        "name":  "Charlie",
+        "age":   21,
+        "grade": "A+",
+    }
+
+    // Convert map to JSON
+    jsonData, err := json.Marshal(student)
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+
+    // Print JSON data
+    fmt.Println(string(jsonData))
+}
+```
+
+### **Step-by-Step Explanation**
+
+1. **Define a Go map** with key-value pairs.
+2. **Use `json.Marshal()`** to convert it to JSON.
+3. **Print the JSON result.**
+
+---
+
+## **Example: Decoding JSON to a Map**
+
+### **Code**
+
+```go filename="main.go" copy
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+)
+
+func main() {
+    // JSON string
+    jsonString := `{"name":"Charlie", "age":21, "grade":"A+"}`
+
+    // Variable to store decoded map
+    var student map[string]interface{}
+
+    // Convert JSON to map
+    err := json.Unmarshal([]byte(jsonString), &student)
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+
+    // Print extracted values
+    fmt.Println("Name:", student["name"])
+    fmt.Println("Age:", student["age"])
+    fmt.Println("Grade:", student["grade"])
+}
+```
+
+### **Step-by-Step Explanation**
+
+1. **JSON string is stored in a variable.**
+2. **Define a `map[string]interface{}`** to store the parsed JSON.
+3. **Use `json.Unmarshal()`** to parse JSON into the map.
+4. **Access and print values from the map.**
+
+---
+
+## **Handling Nested JSON Objects**
+
+### **Code**
+
+```go filename="main.go" copy
+package main
+
+import (
+    "encoding/json"
+    "fmt"
+)
+
+// Define nested struct
+type Address struct {
+    City  string `json:"city"`
+    State string `json:"state"`
+}
+
+type Student struct {
+    Name    string  `json:"name"`
+    Age     int     `json:"age"`
+    Grade   string  `json:"grade"`
+    Address Address `json:"address"`
+}
+
+func main() {
+    // JSON with nested object
+    jsonString := `{"name":"Alice", "age":20, "grade":"A", "address":{"city":"New York", "state":"NY"}}`
+
+    var student Student
+
+    // Convert JSON to struct
+    err := json.Unmarshal([]byte(jsonString), &student)
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+
+    // Print extracted values
+    fmt.Println("Name:", student.Name)
+    fmt.Println("City:", student.Address.City)
+    fmt.Println("State:", student.Address.State)
+}
+```
+
+### **Step-by-Step Explanation**
+
+1. **Create a nested struct (`Address`)** inside `Student`.
+2. **Define a JSON string with nested data.**
+3. **Use `json.Unmarshal()`** to parse JSON.
+4. **Access and print nested data.**
+
+---
+
+## **Summary**
+
+✅ **Use `json.Marshal()`** to convert **Go struct → JSON**.  
+✅ **Use `json.Unmarshal()`** to convert **JSON → Go struct/map**.  
+✅ **JSON arrays are parsed into slices (`[]struct`)**.  
+✅ **Use `map[string]interface{}` for dynamic JSON data**.  
+✅ **Nested JSON objects require struct embedding**.
+
+---

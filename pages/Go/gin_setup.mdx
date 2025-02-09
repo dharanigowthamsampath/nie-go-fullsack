@@ -1,25 +1,178 @@
----
-title: "Setting Up Gin Framework"
+# **Setting Up Gin for Beginners**
+
+## **Introduction**
+
+[**Gin**](https://github.com/gin-gonic/gin) is a lightweight and fast web framework for Go, used to build APIs and web applications efficiently. It is similar to Express.js in Node.js but optimized for Go’s performance.
+
+### **What We'll Cover:**
+
+✅ Installing Gin  
+✅ Creating a Simple Gin Web Server  
+✅ Handling Routes  
+✅ Running the Server
+
 ---
 
-# Setting Up Gin Framework
+## **Step 1: Install Go**
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Setting Up Gin Framework</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Setting Up Gin Framework goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+Ensure you have **Go installed** on your system.
+
+### **Check if Go is Installed:**
+
+Run the following command:
+
+```sh
+go version
+```
+
+If Go is not installed, download and install it from [Go’s official site](https://go.dev/dl/).
+
+---
+
+## **Step 2: Create a New Go Project**
+
+Open a terminal and create a new directory for your Gin project.
+
+```sh
+mkdir gin-app
+cd gin-app
+```
+
+Initialize a new Go module (replace `gin-app` with your project name).
+
+```sh
+go mod init gin-app
+```
+
+This will create a `go.mod` file, which manages dependencies.
+
+---
+
+## **Step 3: Install Gin**
+
+Run the following command to install Gin:
+
+```sh
+go get -u github.com/gin-gonic/gin
+```
+
+This will download Gin and add it to your project dependencies.
+
+---
+
+## **Step 4: Create Your First Gin Server**
+
+Create a new file **`main.go`** inside the `gin-app` folder and add the following code:
+
+### **Code: Simple Gin Server**
+
+```go filename="main.go" copy
+package main
+
+import (
+    "github.com/gin-gonic/gin"
+)
+
+func main() {
+    // Create a new Gin router
+    router := gin.Default()
+
+    // Define a GET route
+    router.GET("/", func(c *gin.Context) {
+        c.JSON(200, gin.H{"message": "Hello, World!"})
+    })
+
+    // Start the server on port 8080
+    router.Run(":8080")
+}
+```
+
+### **Explanation**
+
+1. **Import Gin** → The `gin-gonic/gin` package is imported.
+2. **Create a Router** → `gin.Default()` initializes a Gin router with logging and recovery middleware.
+3. **Define a Route** → `router.GET("/", handler)` sets up a simple API endpoint that returns `Hello, World!` as JSON.
+4. **Run the Server** → `router.Run(":8080")` starts the server on **localhost:8080**.
+
+---
+
+## **Step 5: Run Your Gin Server**
+
+Save `main.go` and run the server with:
+
+```sh
+go run main.go
+```
+
+You should see output like:
+
+```
+[GIN-debug] Listening and serving HTTP on :8080
+```
+
+Now, open your browser and visit:  
+🔗 [http://localhost:8080](http://localhost:8080)
+
+You should see:
+
+```json
+{ "message": "Hello, World!" }
+```
+
+---
+
+## **Step 6: Adding More Routes**
+
+Let’s add more routes to handle different requests.
+
+### **Code: Handling Multiple Routes**
+
+```go filename="main.go" copy
+package main
+
+import (
+    "github.com/gin-gonic/gin"
+)
+
+func main() {
+    router := gin.Default()
+
+    // Home route
+    router.GET("/", func(c *gin.Context) {
+        c.JSON(200, gin.H{"message": "Welcome to Gin!"})
+    })
+
+    // Dynamic Route
+    router.GET("/user/:name", func(c *gin.Context) {
+        name := c.Param("name")
+        c.JSON(200, gin.H{"user": name})
+    })
+
+    // Query Parameters
+    router.GET("/search", func(c *gin.Context) {
+        query := c.Query("q")
+        c.JSON(200, gin.H{"query": query})
+    })
+
+    router.Run(":8080")
+}
+```
+
+### **Explanation**
+
+1. **`/user/:name`** → Accepts a dynamic parameter (e.g., `/user/dharani`).
+2. **`/search?q=gin`** → Handles query parameters (e.g., `/search?q=gin`).
+
+Test these by visiting:
+
+- [http://localhost:8080/user/dharani](http://localhost:8080/user/dharani)
+- [http://localhost:8080/search?q=gin](http://localhost:8080/search?q=gin)
+
+---
+
+## **Summary**
+
+✅ Installed Go and Gin  
+✅ Created a simple Gin web server  
+✅ Added multiple routes  
+✅ Tested API responses

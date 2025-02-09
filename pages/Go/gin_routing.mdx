@@ -1,25 +1,216 @@
----
-title: "Routing & Middleware in Gin"
+# **Routing and Middleware in Gin**
+
+## **Introduction**
+
+Routing and middleware are key features in **Gin**, helping you manage API endpoints and handle requests efficiently.
+
+### **What We’ll Cover:**
+
+✅ **Routing Basics** (Static & Dynamic Routes)  
+✅ **Middleware Basics** (Logging, Authentication)  
+✅ **Custom Middleware** (Example with Execution Time)
+
 ---
 
-# Routing & Middleware in Gin
+# **1️⃣ Routing in Gin**
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Routing & Middleware in Gin</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Routing & Middleware in Gin goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+Routing helps direct HTTP requests to the correct **handler function**.
+
+## **Basic Routing Example**
+
+```go filename="main.go" copy
+package main
+
+import (
+    "github.com/gin-gonic/gin"
+)
+
+func main() {
+    router := gin.Default() // Create router
+
+    // Define a simple GET route
+    router.GET("/", func(c *gin.Context) {
+        c.JSON(200, gin.H{"message": "Welcome to Gin Routing!"})
+    })
+
+    // Start the server
+    router.Run(":8080")
+}
+```
+
+### **Explanation**
+
+- `router.GET("/", handler)` → This maps the **GET** request at `/` to the function that returns `{"message": "Welcome to Gin Routing!"}`.
+- `router.Run(":8080")` → Starts the server on **port 8080**.
+
+---
+
+## **2️⃣ Dynamic Routes (Path Parameters)**
+
+You can **pass values in the URL** using `:param`.
+
+```go filename="main.go" copy
+router.GET("/user/:name", func(c *gin.Context) {
+    name := c.Param("name") // Extract the name from URL
+    c.JSON(200, gin.H{"user": name})
+})
+```
+
+### **Test in Browser:**
+
+👉 **Visit:** `http://localhost:8080/user/dharani`  
+👉 **Output:**
+
+```json
+{ "user": "dharani" }
+```
+
+---
+
+## **3️⃣ Query Parameters**
+
+Query parameters let you send additional **data in the URL** (e.g., `/search?q=gin`).
+
+```go filename="main.go" copy
+router.GET("/search", func(c *gin.Context) {
+    query := c.Query("q") // Get query parameter
+    c.JSON(200, gin.H{"search_query": query})
+})
+```
+
+### **Test in Browser:**
+
+👉 **Visit:** `http://localhost:8080/search?q=golang`  
+👉 **Output:**
+
+```json
+{ "search_query": "golang" }
+```
+
+---
+
+## **4️⃣ Grouping Routes (Organizing APIs)**
+
+To keep code **clean and structured**, we can group routes.
+
+```go filename="main.go" copy
+userRoutes := router.Group("/user")
+{
+    userRoutes.GET("/:name", func(c *gin.Context) {
+        name := c.Param("name")
+        c.JSON(200, gin.H{"user": name})
+    })
+    userRoutes.GET("/profile", func(c *gin.Context) {
+        c.JSON(200, gin.H{"profile": "User Profile"})
+    })
+}
+```
+
+- `/user/:name` → Dynamic user route.
+- `/user/profile` → Static user profile route.
+
+---
+
+# **5️⃣ Middleware in Gin**
+
+Middleware is **code that runs before a request reaches the handler**.  
+Examples:  
+✅ Logging  
+✅ Authentication  
+✅ Execution Time Tracking
+
+### **Using Built-in Middleware**
+
+Gin provides default middleware like **Logging** and **Recovery (error handling)**.
+
+```go filename="main.go" copy
+router := gin.Default() // This includes logging & recovery middleware
+```
+
+---
+
+## **6️⃣ Custom Middleware (Example: Execution Time Logging)**
+
+Let’s create a **middleware** that logs how long each request takes.
+
+```go filename="main.go" copy
+package main
+
+import (
+    "fmt"
+    "time"
+
+    "github.com/gin-gonic/gin"
+)
+
+// Custom Middleware
+func ExecutionTimeLogger() gin.HandlerFunc {
+    return func(c *gin.Context) {
+        startTime := time.Now() // Start time
+
+        c.Next() // Process request
+
+        duration := time.Since(startTime) // Calculate duration
+        fmt.Println("Request took:", duration)
+    }
+}
+
+func main() {
+    router := gin.Default()
+
+    // Apply custom middleware globally
+    router.Use(ExecutionTimeLogger())
+
+    router.GET("/", func(c *gin.Context) {
+        c.JSON(200, gin.H{"message": "Hello, Middleware!"})
+    })
+
+    router.Run(":8080")
+}
+```
+
+### **Explanation**
+
+- `ExecutionTimeLogger()` → Captures **start time** before processing.
+- `c.Next()` → Lets the request **continue to the handler**.
+- After the handler finishes, it logs the **execution time**.
+
+---
+
+## **7️⃣ Middleware for Authentication (Example: API Key Check)**
+
+```go filename="main.go" copy
+func AuthMiddleware() gin.HandlerFunc {
+    return func(c *gin.Context) {
+        apiKey := c.GetHeader("X-API-KEY")
+        if apiKey != "12345" {
+            c.JSON(403, gin.H{"error": "Unauthorized"})
+            c.Abort() // Stop request here
+            return
+        }
+        c.Next() // Continue if valid API key
+    }
+}
+```
+
+### **Usage in Routes**
+
+```go filename="main.go" copy
+router.GET("/secure", AuthMiddleware(), func(c *gin.Context) {
+    c.JSON(200, gin.H{"message": "Welcome to the secure area!"})
+})
+```
+
+- If **X-API-KEY** is `"12345"`, access is **granted**.
+- Otherwise, request **fails with 403 Forbidden**.
+
+---
+
+## **Summary**
+
+✅ **Routing Basics** (Static, Dynamic, Query Params)  
+✅ **Grouping Routes** (Better API structure)  
+✅ **Using Middleware** (Logging, Authentication)  
+✅ **Creating Custom Middleware** (Execution Time Logger)
+
+🔹 Now you can build structured **APIs with middleware in Gin**! 🚀

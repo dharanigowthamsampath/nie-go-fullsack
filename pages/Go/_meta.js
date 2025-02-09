@@ -20,7 +20,8 @@ const meta = {
   go_basics: "Go Basics",
   go_control: "Control Flow",
   go_functions: "Functions",
-  structs_pointers: "Structs & Pointers",
+  go_struct: "Structure in Go",
+  go_pointers: "Pointers in Go",
   error_handling: "Error Handling in Go",
 
   "-- Working with Data": {

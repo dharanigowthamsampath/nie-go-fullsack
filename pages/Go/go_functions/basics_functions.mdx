@@ -1,0 +1,149 @@
+# **Return Statements in Go (For Beginners) – With Examples**
+
+## **Introduction**
+
+In Go, the `return` statement is used inside functions to **send values back** to the function caller.
+
+- A function **can return one or multiple values**.
+- Returning stops the function execution **immediately**.
+- Named return values can be used for **better readability**.
+
+---
+
+## **Example 1: Returning a Single Value**
+
+### **Code**
+
+```go filename="main.go" copy
+package main
+import "fmt"
+
+// Function to return the square of a number
+func square(num int) int {
+    return num * num
+}
+
+func main() {
+    result := square(5)  // Call function and store return value
+    fmt.Println("Square:", result) // Output: Square: 25
+}
+```
+
+### **Explanation**
+
+1. **Function `square(num int) int`**
+   - Takes an integer as input.
+   - Returns the square of the number (`num * num`).
+2. **Inside `main()`**
+   - Calls `square(5)`, stores the result in `result`.
+   - Prints the returned value.
+
+---
+
+## **Example 2: Returning Multiple Values**
+
+### **Code**
+
+```go filename="main.go" copy
+package main
+import "fmt"
+
+// Function to return quotient and remainder
+func divide(a int, b int) (int, int) {
+    quotient := a / b
+    remainder := a % b
+    return quotient, remainder
+}
+
+func main() {
+    q, r := divide(10, 3)  // Call function and store both return values
+    fmt.Println("Quotient:", q, "Remainder:", r) // Output: Quotient: 3 Remainder: 1
+}
+```
+
+### **Explanation**
+
+1. **Function `divide(a int, b int) (int, int)`**
+   - Takes two integers (`a`, `b`) as input.
+   - Returns **two values**: the quotient (`a / b`) and remainder (`a % b`).
+2. **Inside `main()`**
+   - Calls `divide(10, 3)`, stores the values in `q` and `r`.
+   - Prints both returned values.
+
+---
+
+## **Example 3: Using Named Return Values**
+
+### **Code**
+
+```go filename="main.go" copy
+package main
+import "fmt"
+
+// Function with named return values
+func getFullName() (first string, last string) {
+    first = "John"
+    last = "Doe"
+    return  // No need to specify variables
+}
+
+func main() {
+    fname, lname := getFullName()  // Call function
+    fmt.Println("Full Name:", fname, lname) // Output: Full Name: John Doe
+}
+```
+
+### **Explanation**
+
+1. **Function `getFullName() (first string, last string)`**
+   - Declares return variables `first` and `last` in the function signature.
+   - Assigns values inside the function body.
+   - Uses `return` without specifying variables (Go automatically returns `first` and `last`).
+2. **Inside `main()`**
+   - Calls `getFullName()`, stores values in `fname` and `lname`.
+   - Prints the full name.
+
+---
+
+## **Example 4: Early Return in a Function**
+
+### **Code**
+
+```go filename="main.go" copy
+package main
+import "fmt"
+
+// Function to check if a number is positive or negative
+func checkNumber(num int) string {
+    if num < 0 {
+        return "Negative Number"
+    }
+    return "Positive Number"
+}
+
+func main() {
+    result := checkNumber(-5)  // Call function with negative number
+    fmt.Println(result) // Output: Negative Number
+}
+```
+
+### **Explanation**
+
+1. **Function `checkNumber(num int) string`**
+   - Takes an integer as input.
+   - If the number is negative (`num < 0`), it **returns immediately**.
+   - Otherwise, it returns "Positive Number".
+2. **Inside `main()`**
+   - Calls `checkNumber(-5)`, stores the result.
+   - Prints the returned value.
+
+---
+
+## **Summary**
+
+✅ **Single Return:** Return a single value from a function.  
+✅ **Multiple Returns:** Return multiple values from a function.  
+✅ **Named Returns:** Predeclare return variables for cleaner syntax.  
+✅ **Early Return:** Exit a function early using `return`.
+
+🚀 **Next, we will explore more advanced function concepts!**

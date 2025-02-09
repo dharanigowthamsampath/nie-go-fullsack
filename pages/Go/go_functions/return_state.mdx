@@ -1,0 +1,75 @@
+# **Return Statements in Go**
+
+## **Introduction**
+
+The `return` statement in Go is used to **send a value from a function** back to the caller.
+
+- Functions in Go **can return one or multiple values**.
+- A `return` statement **exits the function immediately**.
+
+---
+
+## **Syntax for Returning a Single Value**
+
+```go filename="main.go" copy
+func functionName() returnType {
+    return value
+}
+```
+
+### **Usage**
+
+- Used when a function **returns only one value**.
+- Example: Returning the square of a number.
+
+---
+
+## **Syntax for Returning Multiple Values**
+
+```go filename="main.go" copy
+func functionName() (returnType1, returnType2) {
+    return value1, value2
+}
+```
+
+### **Usage**
+
+- Used when a function **returns more than one value**.
+- Example: A function that **returns a quotient and remainder**.
+
+---
+
+## **Syntax for Named Return Values**
+
+```go filename="main.go" copy
+func functionName() (result type) {
+    result = value
+    return
+}
+```
+
+### **Usage**
+
+- Used when return variables are **declared in the function signature**.
+- `return` without arguments automatically returns named values.
+
+---
+
+## **Syntax for Early `return` Statements**
+
+```go filename="main.go" copy
+func functionName(param int) string {
+    if param < 0 {
+        return "Negative"
+    }
+    return "Positive or Zero"
+}
+```
+
+### **Usage**
+
+- Used when a function **needs to exit early** based on a condition.
+
+---
+
+🚀 **Next, we will explore function examples with return statements!**

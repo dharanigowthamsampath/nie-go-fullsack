@@ -1,0 +1,91 @@
+# **Function Syntax in Go**
+
+## **Introduction**
+
+Functions in Go are used to **group reusable code** into blocks.
+
+- A function **takes inputs**, performs a task, and **returns outputs** (optional).
+- Every Go program has at least one function: **`main()`**.
+
+---
+
+## **Syntax of a Function**
+
+```go filename="main.go" copy
+func functionName(parameters) returnType {
+    // Function body
+    return value  // (if return type is specified)
+}
+```
+
+### **Explanation**
+
+1. `func` → Keyword to define a function.
+2. `functionName` → Name of the function.
+3. `parameters` → Input values (optional).
+4. `returnType` → Data type of returned value (optional).
+5. `return value` → The output of the function (if needed).
+
+---
+
+## **Syntax for a Function Without Parameters & Return Type**
+
+```go filename="main.go" copy
+func functionName() {
+    // Code block
+}
+```
+
+### **Usage**
+
+- Used when **no input or output** is needed.
+- Example: A function that prints a message.
+
+---
+
+## **Syntax for a Function With Parameters**
+
+```go filename="main.go" copy
+func functionName(param1 type1, param2 type2) {
+    // Use param1 and param2
+}
+```
+
+### **Usage**
+
+- Used when the function **needs input values**.
+- Example: A function that **adds two numbers**.
+
+---
+
+## **Syntax for a Function With Return Type**
+
+```go filename="main.go" copy
+func functionName() returnType {
+    return value
+}
+```
+
+### **Usage**
+
+- Used when a function **returns a value**.
+- Example: A function that **returns a sum**.
+
+---
+
+## **Syntax for a Function With Parameters & Return Type**
+
+```go filename="main.go" copy
+func functionName(param1 type1, param2 type2) returnType {
+    return result
+}
+```
+
+### **Usage**
+
+- Used when a function **takes inputs and returns a result**.
+- Example: A function that **multiplies two numbers and returns the result**.
+
+---
+
+🚀 **Next, we will explore function examples!**

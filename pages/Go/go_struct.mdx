@@ -1,0 +1,139 @@
+# **Structs in Go**
+
+## **Introduction**
+
+A **struct** (short for "structure") in Go is a **custom data type** that groups multiple fields together.
+
+- Similar to **classes** in object-oriented programming but without methods.
+- Used to represent **real-world entities** (e.g., a `Person`, `Car`, `Student`).
+- Each field in a struct has a **name** and a **data type**.
+
+---
+
+## **Syntax of a Struct in Go**
+
+```go filename="main.go" copy
+type StructName struct {
+    field1 dataType1
+    field2 dataType2
+}
+```
+
+### **Explanation**
+
+1. `type` → Defines a new struct type.
+2. `StructName` → The name of the struct.
+3. Inside `{}` → Contains multiple **fields** with their **data types**.
+
+---
+
+## **Rules for Structs in Go**
+
+✅ **Structs are collections of fields**, not methods.  
+✅ Fields **must have unique names**.  
+✅ Can be **instantiated (created) using different methods**.  
+✅ Structs **cannot have functions** inside them (but can use methods).  
+✅ Structs are **immutable** by default (values are copied).
+
+---
+
+## **Basic Example: Creating and Using a Struct**
+
+### **Code**
+
+```go filename="main.go" copy
+package main
+import "fmt"
+
+// Define a struct named Person
+type Person struct {
+    name string
+    age  int
+}
+
+func main() {
+    // Create an instance of the struct
+    var p1 Person
+    p1.name = "Alice"
+    p1.age = 25
+
+    // Print struct values
+    fmt.Println("Name:", p1.name) // Output: Name: Alice
+    fmt.Println("Age:", p1.age)   // Output: Age: 25
+}
+```
+
+### **Explanation**
+
+1. **Struct Definition:** `type Person struct` defines a **custom type**.
+2. **Fields:** `name` (string) and `age` (int) are inside the struct.
+3. **Instance Creation:** `var p1 Person` creates a struct instance.
+4. **Assign Values:** `p1.name = "Alice"` and `p1.age = 25` set field values.
+5. **Access Struct Fields:** `fmt.Println(p1.name)` prints the field values.
+
+---
+
+## **Example: Initializing a Struct in Different Ways**
+
+### **Method 1: Using Struct Literal**
+
+```go filename="main.go" copy
+p2 := Person{"Bob", 30} // Direct assignment
+```
+
+### **Method 2: Using Named Fields**
+
+```go filename="main.go" copy
+p3 := Person{name: "Charlie", age: 28} // More readable
+```
+
+### **Method 3: Using `new` Keyword**
+
+```go filename="main.go" copy
+p4 := new(Person)
+p4.name = "David"
+p4.age = 22
+```
+
+- `new(Person)` returns a **pointer to a struct instance**.
+
+---
+
+## **Example: Passing a Struct to a Function**
+
+### **Code**
+
+```go filename="main.go" copy
+package main
+import "fmt"
+
+type Car struct {
+    brand string
+    year  int
+}
+
+// Function to print Car details
+func printCarDetails(c Car) {
+    fmt.Println("Brand:", c.brand, "Year:", c.year)
+}
+
+func main() {
+    myCar := Car{"Toyota", 2022}
+    printCarDetails(myCar) // Output: Brand: Toyota Year: 2022
+}
+```
+
+### **Explanation**
+
+1. Defines a `Car` struct with `brand` and `year` fields.
+2. `printCarDetails(c Car)` **takes a struct as an argument**.
+3. Calls `printCarDetails(myCar)`, passing the struct to the function.
+
+---
+
+## **Summary**
+
+✅ **Structs group multiple fields together** into a single type.  
+✅ **Can be instantiated in different ways** (`var`, `{}`, `new`).  
+✅ **Struct values are copied** when passed to functions.  
+✅ **Used for modeling real-world objects** like `Person`, `Car`, etc.
