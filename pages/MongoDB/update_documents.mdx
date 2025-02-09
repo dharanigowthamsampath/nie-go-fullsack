@@ -1,25 +1,132 @@
----
-title: "Updating Data"
+# **📌 Updating Data in MongoDB**  
+MongoDB provides multiple methods to update documents:  
+- `updateOne()` → Updates a **single** matching document  
+- `updateMany()` → Updates **multiple** matching documents  
+- `replaceOne()` → Replaces an entire document  
+
 ---
 
-# Updating Data
+## **1️⃣ Update a Single Document (`updateOne`)**
+Modifies the **first matching document**.
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Updating Data</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Updating Data goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+### **Example: Update a User's Age**
+```js
+db.users.updateOne(
+  { name: "Alice" },          // Filter condition
+  { $set: { age: 28 } }       // Update operation
+)
+```
+🔹 **Updates the `age` field of "Alice" to 28**  
+
+---
+
+## **2️⃣ Update Multiple Documents (`updateMany`)**
+Modifies **all matching documents**.
+
+### **Example: Increase Age of All Users from "Delhi"**
+```js
+db.users.updateMany(
+  { city: "Delhi" },
+  { $inc: { age: 2 } }         // Increase age by 2
+)
+```
+🔹 **Increases the `age` field by 2 for all users in "Delhi"**  
+
+---
+
+## **3️⃣ Replace an Entire Document (`replaceOne`)**
+Replaces the entire document **except `_id`**.
+
+### **Example: Replace a User's Data**
+```js
+db.users.replaceOne(
+  { name: "Alice" },         // Filter condition
+  { name: "Alice", age: 30, city: "Mumbai" } // New document
+)
+```
+🔹 **Replaces Alice's document with new data**  
+
+---
+
+## **4️⃣ Using Multiple Update Operators**
+You can use **multiple update operators** together.
+
+### **Example: Update Name & Increase Age**
+```js
+db.users.updateOne(
+  { name: "Bob" },
+  { 
+    $set: { name: "Bobby" }, 
+    $inc: { age: 1 } 
+  }
+)
+```
+🔹 **Renames "Bob" to "Bobby" and increases `age` by 1**  
+
+---
+
+## **5️⃣ Add/Remove Fields (`$set`, `$unset`)**
+🔹 **Add a new field**  
+```js
+db.users.updateOne(
+  { name: "Alice" },
+  { $set: { email: "alice@example.com" } }
+)
+```
+🔹 **Remove a field (`$unset`)**  
+```js
+db.users.updateOne(
+  { name: "Alice" },
+  { $unset: { email: "" } }
+)
+```
+
+---
+
+## **6️⃣ Updating Arrays**
+🔹 **Add a value to an array (`$push`)**  
+```js
+db.users.updateOne(
+  { name: "Alice" },
+  { $push: { skills: "MongoDB" } }
+)
+```
+🔹 **Remove a value from an array (`$pull`)**  
+```js
+db.users.updateOne(
+  { name: "Alice" },
+  { $pull: { skills: "React" } }
+)
+```
+🔹 **Update a specific array element**  
+```js
+db.users.updateOne(
+  { name: "Alice", "skills": "Node.js" },
+  { $set: { "skills.$": "Express.js" } }
+)
+```
+---
+
+## **7️⃣ Upsert (Update if Exists, Insert if Not)**
+Use `"upsert": true` to **insert a new document** if no match is found.
+
+```js
+db.users.updateOne(
+  { name: "David" },
+  { $set: { age: 35, city: "London" } },
+  { upsert: true }
+)
+```
+🔹 **If "David" exists → Updates his data**  
+🔹 **If "David" does not exist → Creates a new document**  
+
+---
+
+## **🎯 Conclusion**
+✅ `updateOne()` → Updates **first** matching document  
+✅ `updateMany()` → Updates **multiple** documents  
+✅ `replaceOne()` → Replaces an **entire document**  
+✅ **Use `$set`, `$unset`, `$push`, `$pull`, `$inc`** for flexible updates  
+✅ **Use `upsert: true` for inserting if missing**  
+
+Would you like **real-world examples**?

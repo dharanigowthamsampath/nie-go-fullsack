@@ -1,25 +1,116 @@
----
-title: "Aggregation Pipeline Basics"
+### MongoDB Aggregation Pipeline Basics  
+
+The **aggregation pipeline** in MongoDB is a powerful framework for data processing and transformation. It allows you to perform operations such as filtering, grouping, sorting, and computing derived values efficiently.
+
 ---
 
-# Aggregation Pipeline Basics
+### **1. Basic Structure**
+An aggregation pipeline consists of multiple stages, where each stage processes documents and passes the output to the next stage.
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Aggregation Pipeline Basics</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Aggregation Pipeline Basics goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+```js
+db.collection.aggregate([
+  { stage1 },
+  { stage2 },
+  { stage3 }
+])
+```
+
+---
+
+### **2. Common Aggregation Stages**
+Here are some fundamental stages used in aggregation:
+
+#### **1. `$match` (Filtering Documents)**
+Filters documents based on a condition (similar to `find`).
+
+```js
+db.orders.aggregate([
+  { $match: { status: "shipped" } }
+])
+```
+
+#### **2. `$group` (Grouping and Aggregating)**
+Groups documents by a specific field and applies aggregate functions.
+
+```js
+db.orders.aggregate([
+  { $group: { _id: "$customerId", totalSpent: { $sum: "$amount" } } }
+])
+```
+
+#### **3. `$project` (Selecting and Reshaping Fields)**
+Includes or excludes specific fields in the output.
+
+```js
+db.orders.aggregate([
+  { $project: { _id: 0, customer: 1, totalAmount: 1 } }
+])
+```
+
+#### **4. `$sort` (Sorting Results)**
+Sorts documents in ascending (`1`) or descending (`-1`) order.
+
+```js
+db.orders.aggregate([
+  { $sort: { totalAmount: -1 } }
+])
+```
+
+#### **5. `$limit` and `$skip` (Pagination)**
+- `$limit`: Limits the number of results.
+- `$skip`: Skips a certain number of documents.
+
+```js
+db.orders.aggregate([
+  { $sort: { totalAmount: -1 } },
+  { $skip: 10 },
+  { $limit: 5 }
+])
+```
+
+#### **6. `$lookup` (Joining Collections)**
+Performs a left join between collections.
+
+```js
+db.orders.aggregate([
+  {
+    $lookup: {
+      from: "customers",
+      localField: "customerId",
+      foreignField: "_id",
+      as: "customerDetails"
+    }
+  }
+])
+```
+
+#### **7. `$unwind` (Deconstructing Arrays)**
+Breaks an array field into multiple documents.
+
+```js
+db.orders.aggregate([
+  { $unwind: "$items" }
+])
+```
+
+---
+
+### **3. Example Aggregation Pipeline**
+Find the total sales per product for orders shipped in 2024:
+
+```js
+db.orders.aggregate([
+  { $match: { status: "shipped", year: 2024 } },
+  { $group: { _id: "$productId", totalSales: { $sum: "$amount" } } },
+  { $sort: { totalSales: -1 } }
+])
+```
+
+This filters orders shipped in 2024, groups them by product, sums the total sales, and sorts the results in descending order.
+
+---
+
+### **4. When to Use Aggregation?**
+- When performing complex queries involving multiple stages.
+- When needing to transform, analyze, and summarize data.
+- When performing operations like joins (`$lookup`), grouping, or complex filtering.

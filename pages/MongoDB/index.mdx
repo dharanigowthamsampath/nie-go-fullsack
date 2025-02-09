@@ -1,25 +1,131 @@
----
-title: "Overview"
+### **MongoDB CRUD Operations Overview**  
+
+MongoDB provides powerful methods to manage data using **CRUD** operations:  
+
+- **C** → Create (Insert Data)  
+- **R** → Read (Retrieve Data)  
+- **U** → Update (Modify Data)  
+- **D** → Delete (Remove Data)  
+
 ---
 
-# Overview
+## **1️⃣ Inserting Data (Create)**
+Used to add new documents into a collection.  
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Overview</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Overview goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+🔹 **Insert One Document**  
+```js
+db.users.insertOne({ name: "John", age: 28, email: "john@example.com" })
+```
+
+🔹 **Insert Multiple Documents**  
+```js
+db.users.insertMany([
+  { name: "Alice", age: 25 },
+  { name: "Bob", age: 30 }
+])
+```
+
+---
+
+## **2️⃣ Querying Data (Read)**
+Used to retrieve documents from a collection.  
+
+🔹 **Find All Documents**  
+```js
+db.users.find()
+```
+
+🔹 **Find with Filter**  
+```js
+db.users.find({ age: { $gt: 25 } }) // Users older than 25
+```
+
+🔹 **Find One Document**  
+```js
+db.users.findOne({ name: "Alice" })
+```
+
+🔹 **Projection (Select Specific Fields)**  
+```js
+db.users.find({}, { name: 1, _id: 0 }) // Show only names
+```
+
+---
+
+## **3️⃣ Updating Data (Update)**
+Used to modify existing documents.  
+
+🔹 **Update One Document**  
+```js
+db.users.updateOne({ name: "John" }, { $set: { age: 29 } })
+```
+
+🔹 **Update Multiple Documents**  
+```js
+db.users.updateMany({ age: { $lt: 30 } }, { $set: { status: "Young" } })
+```
+
+🔹 **Replace an Entire Document**  
+```js
+db.users.replaceOne({ name: "Alice" }, { name: "Alice Cooper", age: 26 })
+```
+
+---
+
+## **4️⃣ Deleting Data (Delete)**
+Used to remove documents.  
+
+🔹 **Delete One Document**  
+```js
+db.users.deleteOne({ name: "John" })
+```
+
+🔹 **Delete Multiple Documents**  
+```js
+db.users.deleteMany({ age: { $gt: 30 } })
+```
+
+🔹 **Delete All Documents**  
+```js
+db.users.deleteMany({})
+```
+
+🔹 **Drop Entire Collection**  
+```js
+db.users.drop()
+```
+
+---
+
+## **5️⃣ Aggregation Pipeline (Advanced Querying)**
+Used for advanced data processing like filtering, grouping, and sorting.  
+
+🔹 **Example: Total Sales Per Product**  
+```js
+db.orders.aggregate([
+  { $group: { _id: "$product", totalSales: { $sum: "$amount" } } },
+  { $sort: { totalSales: -1 } }
+])
+```
+
+---
+
+### **📌 Summary Table**
+| Operation | Method | Example |
+|-----------|--------|---------|
+| **Create** | `insertOne()` | Insert a single document |
+|  | `insertMany()` | Insert multiple documents |
+| **Read** | `find()` | Retrieve multiple documents |
+|  | `findOne()` | Retrieve a single document |
+|  | `find({}, { field: 1 })` | Select specific fields |
+| **Update** | `updateOne()` | Update the first matching document |
+|  | `updateMany()` | Update multiple documents |
+|  | `replaceOne()` | Replace an entire document |
+| **Delete** | `deleteOne()` | Remove one document |
+|  | `deleteMany()` | Remove multiple documents |
+|  | `drop()` | Remove the entire collection |
+| **Aggregation** | `$match, $group, $sort` | Advanced data processing |
+
+---
+
+This overview gives you the foundation to work with MongoDB effectively. Let me know if you need more details or exercises! 

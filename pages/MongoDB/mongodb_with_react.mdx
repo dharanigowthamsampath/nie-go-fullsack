@@ -1,25 +1,218 @@
----
-title: "MongoDB with React & APIs"
+# **MongoDB with React & APIs 🚀**  
+
+In this guide, we'll integrate **MongoDB**, **Express.js (Node.js API)**, and **React** to build a **full-stack MERN app** (MongoDB, Express, React, Node).  
+
+✅ **Backend** → Express.js API with MongoDB  
+✅ **Frontend** → React.js for UI  
+✅ **API Requests** → Fetch data using Axios  
+
 ---
 
-# MongoDB with React & APIs
+## **1️⃣ Backend: Set Up MongoDB with Express.js API**  
+First, set up a **Node.js server** with MongoDB.  
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">MongoDB with React & APIs</h2>
-          
-          {/* Add your content here */}
-          <p>Content for MongoDB with React & APIs goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
+### **Step 1: Create a Node.js Project**
+```sh
+mkdir mern-app && cd mern-app
+npm init -y
+```
+
+### **Step 2: Install Dependencies**
+```sh
+npm install express mongoose cors dotenv
+```
+
+### **Step 3: Set Up Express Server**
+Create a file **server.js**:  
+
+```js
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+require("dotenv").config();
+
+const app = express();
+app.use(express.json());
+app.use(cors());
+
+// Connect to MongoDB
+mongoose.connect("mongodb://localhost:27017/mernDB", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => console.log("✅ MongoDB Connected"))
+  .catch(err => console.log(err));
+
+// Define a Mongoose model
+const UserSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+});
+const User = mongoose.model("User", UserSchema);
+
+// 🟢 CREATE: Add a user
+app.post("/users", async (req, res) => {
+  const newUser = new User(req.body);
+  await newUser.save();
+  res.json(newUser);
+});
+
+// 🔵 READ: Get all users
+app.get("/users", async (req, res) => {
+  const users = await User.find();
+  res.json(users);
+});
+
+// 🟡 UPDATE: Update user by ID
+app.put("/users/:id", async (req, res) => {
+  const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json(updatedUser);
+});
+
+// 🔴 DELETE: Remove user by ID
+app.delete("/users/:id", async (req, res) => {
+  await User.findByIdAndDelete(req.params.id);
+  res.json({ message: "User deleted" });
+});
+
+// Start the server
+app.listen(5000, () => console.log("🚀 Server running on port 5000"));
+```
+
+### **Step 4: Run the Backend**
+```sh
+node server.js
+```
+✅ Backend runs at **http://localhost:5000**
+
+---
+
+## **2️⃣ Frontend: React Setup with API Calls**  
+Next, set up the **React frontend**.  
+
+### **Step 1: Create a React App**
+```sh
+npx create-react-app frontend
+cd frontend
+npm install axios
+```
+
+### **Step 2: Create API Service**
+Inside **frontend/src**, create a file **api.js**:  
+
+```js
+import axios from "axios";
+
+const API_URL = "http://localhost:5000/users";
+
+export const getUsers = async () => axios.get(API_URL);
+export const createUser = async (user) => axios.post(API_URL, user);
+export const updateUser = async (id, user) => axios.put(`${API_URL}/${id}`, user);
+export const deleteUser = async (id) => axios.delete(`${API_URL}/${id}`);
+```
+
+---
+
+### **Step 3: Build the React UI**
+Modify **App.js** in **frontend/src**:  
+
+```jsx
+import React, { useEffect, useState } from "react";
+import { getUsers, createUser, updateUser, deleteUser } from "./api";
+
+function App() {
+  const [users, setUsers] = useState([]);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [editingUser, setEditingUser] = useState(null);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    const response = await getUsers();
+    setUsers(response.data);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (editingUser) {
+      await updateUser(editingUser._id, { name, email });
+      setEditingUser(null);
+    } else {
+      await createUser({ name, email });
+    }
+    setName("");
+    setEmail("");
+    fetchUsers();
+  };
+
+  const handleEdit = (user) => {
+    setName(user.name);
+    setEmail(user.email);
+    setEditingUser(user);
+  };
+
+  const handleDelete = async (id) => {
+    await deleteUser(id);
+    fetchUsers();
+  };
+
+  return (
+    <div className="container">
+      <h1>MongoDB with React</h1>
+      <form onSubmit={handleSubmit}>
+        <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
+        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <button type="submit">{editingUser ? "Update User" : "Add User"}</button>
+      </form>
+
+      <ul>
+        {users.map((user) => (
+          <li key={user._id}>
+            {user.name} - {user.email}
+            <button onClick={() => handleEdit(user)}>Edit</button>
+            <button onClick={() => handleDelete(user._id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
     </div>
-  </div>
-</div>
+  );
+}
+
+export default App;
+```
+
+---
+
+### **Step 4: Run the React Frontend**
+```sh
+npm start
+```
+✅ React app runs at **http://localhost:3000**
+
+---
+
+## **3️⃣ Testing the Full-Stack App**
+1. **Start MongoDB**
+   ```sh
+   mongod
+   ```
+2. **Run the Backend**
+   ```sh
+   node server.js
+   ```
+3. **Run the Frontend**
+   ```sh
+   npm start
+   ```
+4. Open **http://localhost:3000** in the browser 🎉  
+
+---
+
+## **🎯 Conclusion**
+✅ **MongoDB with React (MERN Stack)** is now set up!  
+✅ Built a full CRUD API using **Express.js & MongoDB**  
+✅ Integrated React frontend with **Axios API calls**  
+
+Would you like to **add authentication** or **deploy it to the cloud**?

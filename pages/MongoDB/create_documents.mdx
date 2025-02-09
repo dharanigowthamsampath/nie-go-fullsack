@@ -1,25 +1,103 @@
----
-title: "Inserting Data (Create)"
+### **MongoDB Data Insertion Basics**  
+
+In MongoDB, you can insert data into a collection using various methods. Below are the key commands for inserting documents.
+
 ---
 
-# Inserting Data (Create)
+## **1. Insert a Single Document**  
+The `insertOne()` method is used to insert a single document into a collection.
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Inserting Data (Create)</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Inserting Data (Create) goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+### **Example**
+```js
+db.users.insertOne({
+  name: "John Doe",
+  age: 28,
+  email: "john@example.com",
+  createdAt: new Date()
+})
+```
+✅ **Output:** Inserts one document into the `users` collection.
+
+---
+
+## **2. Insert Multiple Documents**  
+The `insertMany()` method is used to insert multiple documents at once.
+
+### **Example**
+```js
+db.users.insertMany([
+  { name: "Alice", age: 25, email: "alice@example.com" },
+  { name: "Bob", age: 30, email: "bob@example.com" }
+])
+```
+✅ **Output:** Inserts two documents into the `users` collection.
+
+---
+
+## **3. Auto-Generated `_id`**  
+- Each document automatically gets an `_id` field if not provided.
+- `_id` must be unique in the collection.
+
+### **Example**
+```js
+db.products.insertOne({
+  _id: 101,
+  name: "Laptop",
+  price: 1200
+})
+```
+✅ **Custom `_id` provided** (If an `_id` already exists, MongoDB throws an error).
+
+---
+
+## **4. Insert with Nested Documents**  
+MongoDB supports inserting documents with nested objects and arrays.
+
+### **Example**
+```js
+db.orders.insertOne({
+  orderId: 1,
+  customer: { name: "Emma", email: "emma@example.com" },
+  items: [
+    { product: "Laptop", quantity: 1 },
+    { product: "Mouse", quantity: 2 }
+  ],
+  totalAmount: 1500
+})
+```
+✅ **Stores structured data** within a single document.
+
+---
+
+## **5. Insert with `ordered: false` (Ignore Errors and Continue)**  
+By default, `insertMany()` stops if one document fails. Use `ordered: false` to continue inserting the rest.
+
+### **Example**
+```js
+db.users.insertMany(
+  [
+    { _id: 1, name: "Sam" },
+    { _id: 2, name: "Jake" },
+    { _id: 1, name: "Lucas" } // Duplicate _id, will cause an error
+  ],
+  { ordered: false }
+)
+```
+✅ **Only valid documents are inserted**, and the process continues.
+
+---
+
+## **6. Insert Data Using `Mongo Shell` or `Compass`**
+- **Mongo Shell:** Run `db.collection.insertOne({})` or `db.collection.insertMany([])`.
+- **MongoDB Compass:** Use the **Insert Document** button.
+
+---
+
+### **📌 Summary**
+| Method | Inserts | Example |
+|--------|---------|---------|
+| `insertOne()` | Single Document | `{ name: "John" }` |
+| `insertMany()` | Multiple Documents | `[{ name: "A" }, { name: "B" }]` |
+| Custom `_id` | Unique Identifier | `{ _id: 101, name: "Product" }` |
+| Nested Objects | Embedded Data | `{ customer: { name: "Alice" } }` |
+| `ordered: false` | Continue on Error | Ignores failed inserts |

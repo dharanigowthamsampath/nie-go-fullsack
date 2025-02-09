@@ -1,25 +1,53 @@
----
-title: "SQL vs NoSQL"
+# **📌 SQL vs NoSQL: Key Differences**  
+
+| Feature         | SQL (Relational DB) | NoSQL (Non-Relational DB) |
+|----------------|---------------------|---------------------------|
+| **Structure**  | Structured (Tables, Rows, Columns) | Flexible (JSON, Documents, Key-Value, Graph, Column-Family) |
+| **Schema**     | Fixed Schema (Predefined Columns & Data Types) | Dynamic Schema (Flexible Fields) |
+| **Scalability** | Vertical Scaling (More CPU/RAM on a Single Server) | Horizontal Scaling (Distributed Across Multiple Servers) |
+| **Query Language** | Uses SQL (Structured Query Language) | Varies (MongoDB: BSON/JSON, Cassandra: CQL, etc.) |
+| **Transactions** | Strong ACID Compliance (Atomicity, Consistency, Isolation, Durability) | Eventual Consistency (Some Support ACID, e.g., MongoDB) |
+| **Joins** | Complex JOINs Supported | Denormalized Data (Joins are Less Common) |
+| **Best For** | Structured Data (Banking, ERP, CRM) | Unstructured Data (Big Data, Real-time Apps, IoT) |
+| **Examples** | MySQL, PostgreSQL, Oracle, SQL Server | MongoDB, Firebase, DynamoDB, Cassandra |
+
 ---
 
-# SQL vs NoSQL
+## **1️⃣ SQL (Structured Query Language)**
+🔹 **Stores data in tables** (rows & columns)  
+🔹 **Strong consistency** for transactional applications  
+🔹 **Example Query (MySQL/PostgreSQL)**
+```sql
+SELECT * FROM users WHERE age > 25 ORDER BY name;
+```
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">SQL vs NoSQL</h2>
-          
-          {/* Add your content here */}
-          <p>Content for SQL vs NoSQL goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+---
+
+## **2️⃣ NoSQL (Not Only SQL)**
+🔹 **Stores data as documents (JSON/BSON), key-value, or graphs**  
+🔹 **Highly scalable** for large, distributed applications  
+🔹 **Example Query (MongoDB)**
+```js
+db.users.find({ age: { $gt: 25 } }).sort({ name: 1 });
+```
+
+---
+
+## **3️⃣ When to Use SQL vs NoSQL**
+✅ **Use SQL if:**
+- You need **structured, relational data** (e.g., Banking, ERP, CRM)
+- Strong **ACID transactions** are required
+- Data does not change frequently
+
+✅ **Use NoSQL if:**
+- You need **high scalability & performance** (e.g., Real-time apps, IoT, Big Data)
+- Your data is **semi-structured or unstructured**
+- You require **flexible schemas**
+
+---
+
+### **🎯 Conclusion**
+✔ **SQL = Structured, ACID-compliant, best for transactions**  
+✔ **NoSQL = Flexible, scalable, best for big data & real-time apps**  
+
+Would you like examples for **specific use cases**?

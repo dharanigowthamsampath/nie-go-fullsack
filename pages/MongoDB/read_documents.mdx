@@ -1,25 +1,146 @@
----
-title: "Reading Data (Find Queries)"
+# **📌 MongoDB Find Queries (Reading Data)**
+MongoDB's `find()` method retrieves documents from a collection using **filters, projections, sorting, and pagination**.
+
 ---
 
-# Reading Data (Find Queries)
+## **1️⃣ Find All Documents**
+Retrieve all documents from a collection.
+```js
+db.users.find()
+```
+**Example Output:**
+```json
+[
+  { "_id": 1, "name": "Alice", "age": 25, "city": "Delhi" },
+  { "_id": 2, "name": "Bob", "age": 30, "city": "Mumbai" }
+]
+```
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Reading Data (Find Queries)</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Reading Data (Find Queries) goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+---
+
+## **2️⃣ Find a Single Document**
+Retrieve only the first matching document.
+```js
+db.users.findOne({ name: "Alice" })
+```
+
+---
+
+## **3️⃣ Find Documents with Conditions**
+Use **comparison operators** (`$eq`, `$gt`, `$lt`, etc.).
+
+**Example: Find users older than 25**
+```js
+db.users.find({ age: { $gt: 25 } })
+```
+
+**Example: Find users from "Delhi" or "Mumbai"**
+```js
+db.users.find({ city: { $in: ["Delhi", "Mumbai"] } })
+```
+
+---
+
+## **4️⃣ Find with Logical Operators**
+Use `$and`, `$or`, `$not`, and `$nor` for multiple conditions.
+
+**Example: Find users who are from "Delhi" and older than 25**
+```js
+db.users.find({ $and: [{ city: "Delhi" }, { age: { $gt: 25 } }] })
+```
+
+**Example: Find users who are either 25 years old or live in "Mumbai"**
+```js
+db.users.find({ $or: [{ age: 25 }, { city: "Mumbai" }] })
+```
+
+---
+
+## **5️⃣ Find Documents with Projection**
+Return only specific fields by setting them to `1`.
+
+**Example: Get only `name` and `age` (exclude `_id`)**
+```js
+db.users.find({}, { name: 1, age: 1, _id: 0 })
+```
+**Example Output:**
+```json
+[
+  { "name": "Alice", "age": 25 },
+  { "name": "Bob", "age": 30 }
+]
+```
+
+---
+
+## **6️⃣ Find with Sorting (`$sort`)**
+Sort results in **ascending (1)** or **descending (-1)** order.
+
+**Example: Sort users by age (ascending)**
+```js
+db.users.find().sort({ age: 1 })
+```
+
+**Example: Sort users by name (descending)**
+```js
+db.users.find().sort({ name: -1 })
+```
+
+---
+
+## **7️⃣ Find with Pagination (`$skip` & `$limit`)**
+Limit results and skip records for pagination.
+
+**Example: Get first 5 users**
+```js
+db.users.find().limit(5)
+```
+
+**Example: Skip first 5 users and get the next 5**
+```js
+db.users.find().skip(5).limit(5)
+```
+
+---
+
+## **8️⃣ Find with Array Filters**
+Search inside arrays.
+
+**Example: Find users with "React" in skills**
+```js
+db.users.find({ skills: "React" })
+```
+
+**Example: Find users with both "MongoDB" and "Node.js"**
+```js
+db.users.find({ skills: { $all: ["MongoDB", "Node.js"] } })
+```
+
+---
+
+## **9️⃣ Find Using Regular Expressions**
+Use `$regex` for pattern matching.
+
+**Example: Find names starting with "A"**
+```js
+db.users.find({ name: { $regex: "^A", $options: "i" } })
+```
+
+---
+
+## **🔟 Find Documents Using `$exists`**
+Check if a field is present.
+
+**Example: Find users with an `email` field**
+```js
+db.users.find({ email: { $exists: true } })
+```
+
+---
+
+### **🎯 Conclusion**
+✅ **`find()`** retrieves multiple documents  
+✅ Use **filters, sorting, pagination, and projections** for better results  
+✅ Use **`$in`, `$or`, `$regex`, `$exists`** for flexible queries  
+
+Would you like **real-world query examples**?

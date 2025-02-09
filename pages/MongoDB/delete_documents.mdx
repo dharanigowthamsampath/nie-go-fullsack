@@ -1,25 +1,69 @@
----
-title: "Deleting Data"
+### **MongoDB Data Deletion Basics**  
+
+In MongoDB, you can delete documents from a collection using the following methods:
+
 ---
 
-# Deleting Data
+## **1. Delete a Single Document**
+The `deleteOne()` method removes the first document that matches the filter.
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Deleting Data</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Deleting Data goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+### **Example**
+```js
+db.users.deleteOne({ name: "John Doe" })
+```
+✅ **Deletes one document** where `name` is "John Doe".
+
+---
+
+## **2. Delete Multiple Documents**
+The `deleteMany()` method removes all documents that match the filter.
+
+### **Example**
+```js
+db.users.deleteMany({ age: { $gt: 30 } })
+```
+✅ **Deletes all users** older than 30.
+
+---
+
+## **3. Delete All Documents in a Collection**
+To remove all documents from a collection without dropping the collection:
+
+### **Example**
+```js
+db.users.deleteMany({})
+```
+✅ **Deletes all documents** in the `users` collection.
+
+---
+
+## **4. Drop an Entire Collection**
+To delete the collection itself (along with all documents):
+
+### **Example**
+```js
+db.users.drop()
+```
+✅ **Completely removes the `users` collection**.
+
+---
+
+## **5. Delete Using `_id`**
+Since `_id` is unique, deleting by `_id` ensures only one document is deleted.
+
+### **Example**
+```js
+db.orders.deleteOne({ _id: ObjectId("65a8bfbf4d2a3c8f1f3c1234") })
+```
+✅ **Deletes the document with the specific `_id`**.
+
+---
+
+### **📌 Summary of Deletion Methods**
+| Method | Action | Example |
+|--------|--------|---------|
+| `deleteOne()` | Deletes the first matching document | `{ name: "Alice" }` |
+| `deleteMany()` | Deletes all matching documents | `{ age: { $gt: 25 } }` |
+| `deleteMany({})` | Deletes all documents in the collection | `{}` |
+| `drop()` | Deletes the entire collection | `db.collection.drop()` |
+

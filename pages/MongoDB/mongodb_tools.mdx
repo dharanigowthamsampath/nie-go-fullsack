@@ -1,25 +1,76 @@
----
-title: "Using Compass & Shell"
+# **Using MongoDB Compass & MongoDB Shell** 🏆  
+
+MongoDB provides two main tools for interacting with the database:  
+
+✅ **MongoDB Compass** – A **GUI** (Graphical User Interface) for visualizing and managing data  
+✅ **MongoDB Shell (mongosh)** – A **CLI** (Command Line Interface) for executing database commands  
+
 ---
 
-# Using Compass & Shell
+## **🟢 1. Using MongoDB Compass (GUI)**
+### **What is MongoDB Compass?**  
+MongoDB Compass is a **visual tool** that allows you to explore and manage your databases without writing queries manually.
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Using Compass & Shell</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Using Compass & Shell goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+### **Step 1: Install MongoDB Compass**  
+1️⃣ Download it from the **official website**:  
+🔗 [https://www.mongodb.com/products/compass](https://www.mongodb.com/products/compass)  
+2️⃣ Install it like any other application.
+
+### **Step 2: Connect to MongoDB**
+1. **Open MongoDB Compass**  
+2. **Enter the connection string** (for local MongoDB):  
+   ```
+   mongodb://localhost:27017
+   ```
+3. Click **"Connect"** to establish a connection.
+
+### **Step 3: Explore Data**
+- **View Databases & Collections** 🏢  
+- **Insert, Update, and Delete Documents** 📝  
+- **Run Queries Without Writing Code** 🔍  
+- **Visualize Aggregation Pipelines** 📊  
+
+---
+
+## **🔵 2. Using MongoDB Shell (CLI)**
+### **What is MongoDB Shell (mongosh)?**  
+MongoDB Shell (mongosh) is a **command-line interface** for interacting with your database using JavaScript commands.
+
+### **Step 1: Install MongoDB Shell**
+- If you installed MongoDB, `mongosh` is already available.
+- To install it separately, download from:  
+  🔗 [https://www.mongodb.com/try/download/shell](https://www.mongodb.com/try/download/shell)
+
+### **Step 2: Start MongoDB Shell**
+1️⃣ Open **Terminal / Command Prompt**  
+2️⃣ Run the command:  
+   ```sh
+   mongosh
+   ```
+   ✅ This connects to the default local MongoDB server.
+
+### **Step 3: Basic Commands in MongoDB Shell**
+| **Command** | **Description** |
+|------------|---------------|
+| `show dbs` | Lists all databases |
+| `use mydb` | Switches to **mydb** database |
+| `db.createCollection("users")` | Creates a collection named **users** |
+| `db.users.insertOne({name: "Alice", age: 25})` | Inserts a document into **users** |
+| `db.users.find()` | Displays all documents in **users** |
+| `db.users.updateOne({name: "Alice"}, {$set: {age: 26}})` | Updates a document |
+| `db.users.deleteOne({name: "Alice"})` | Deletes a document |
+| `show collections` | Lists all collections in the database |
+
+---
+
+## **💡 Summary: Compass vs. Shell**
+| **Feature** | **MongoDB Compass (GUI)** | **MongoDB Shell (CLI)** |
+|------------|----------------|----------------|
+| **Ease of Use** | ✅ User-friendly | ❌ Requires commands |
+| **Best For** | Visualizing & managing data | Running commands & scripts |
+| **Query Execution** | Click-based queries | Command-line queries |
+| **Aggregation Pipelines** | Visual builder | Manual query writing |
+
+---
+
+Would you like **hands-on exercises** for Compass or Shell? 

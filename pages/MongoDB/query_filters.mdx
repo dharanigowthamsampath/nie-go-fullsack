@@ -1,25 +1,196 @@
----
-title: "Query Filters & Operators"
+# **🔍 MongoDB Query Filters & Operators**  
+
+MongoDB provides **query filters & operators** to retrieve, update, and manipulate data efficiently. These filters define conditions for documents in **find(), update(), delete()**, and aggregation queries.
+
 ---
 
-# Query Filters & Operators
+## **1️⃣ Basic Query Filters**  
+Filters help in selecting specific documents based on conditions.  
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Query Filters & Operators</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Query Filters & Operators goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+### **📌 `find()` Basic Example**
+```js
+db.users.find({ name: "Alice" })   // Finds all users named 'Alice'
+```
+
+### **📌 Comparison Operators**  
+| Operator | Description | Example |
+|----------|------------|---------|
+| `$eq`  | Equals | `{ age: { $eq: 25 } }` |
+| `$ne`  | Not equal | `{ age: { $ne: 25 } }` |
+| `$gt`  | Greater than | `{ age: { $gt: 18 } }` |
+| `$gte` | Greater than or equal | `{ age: { $gte: 18 } }` |
+| `$lt`  | Less than | `{ age: { $lt: 30 } }` |
+| `$lte` | Less than or equal | `{ age: { $lte: 30 } }` |
+
+**Example:**  
+Find users whose age is **greater than or equal to 18**  
+```js
+db.users.find({ age: { $gte: 18 } })
+```
+
+---
+
+## **2️⃣ Logical Operators**  
+Combine multiple conditions using logical operators.
+
+| Operator | Description | Example |
+|----------|------------|---------|
+| `$and` | All conditions must be true | `{ $and: [{ age: { $gt: 20 } }, { city: "Delhi" }] }` |
+| `$or`  | At least one condition is true | `{ $or: [{ age: 25 }, { city: "Mumbai" }] }` |
+| `$not` | Negates a condition | `{ age: { $not: { $gte: 30 } } }` |
+| `$nor` | Neither condition is true | `{ $nor: [{ age: { $gt: 50 } }, { city: "Paris" }] }` |
+
+**Example:**  
+Find users who are **either 25 years old or live in Mumbai**  
+```js
+db.users.find({ $or: [{ age: 25 }, { city: "Mumbai" }] })
+```
+
+---
+
+## **3️⃣ Array Operators**  
+Operators to filter based on array fields.
+
+| Operator | Description | Example |
+|----------|------------|---------|
+| `$in` | Matches any value in array | `{ city: { $in: ["Delhi", "Mumbai"] } }` |
+| `$nin` | Not in the list | `{ city: { $nin: ["Delhi", "Mumbai"] } }` |
+| `$all` | All values must match | `{ skills: { $all: ["MongoDB", "Node.js"] } }` |
+| `$size` | Matches array size | `{ tags: { $size: 3 } }` |
+
+**Example:**  
+Find users who have `"JavaScript"` in their **skills array**  
+```js
+db.users.find({ skills: "JavaScript" })
+```
+
+Find users with exactly **3 tags**  
+```js
+db.users.find({ tags: { $size: 3 } })
+```
+
+---
+
+## **4️⃣ Element Operators**  
+Used for checking the existence and type of a field.
+
+| Operator | Description | Example |
+|----------|------------|---------|
+| `$exists` | Field exists or not | `{ phone: { $exists: true } }` |
+| `$type` | Matches field type | `{ age: { $type: "number" } }` |
+
+**Example:**  
+Find documents where **email exists**  
+```js
+db.users.find({ email: { $exists: true } })
+```
+
+Find documents where **age is stored as a number**  
+```js
+db.users.find({ age: { $type: "number" } })
+```
+
+---
+
+## **5️⃣ Evaluation Operators**  
+Used for expressions, regex, and JavaScript execution.
+
+| Operator | Description | Example |
+|----------|------------|---------|
+| `$regex` | Matches string pattern | `{ name: { $regex: "^A", $options: "i" } }` |
+| `$expr` | Allows use of aggregation expressions | `{ $expr: { $gt: ["$price", 100] } }` |
+| `$mod` | Remainder division condition | `{ age: { $mod: [2, 0] } }` |
+| `$text` | Full-text search | `{ $text: { $search: "mongodb" } }` |
+
+**Example:**  
+Find users whose **name starts with 'A'** (case-insensitive)  
+```js
+db.users.find({ name: { $regex: "^A", $options: "i" } })
+```
+
+Find numbers **divisible by 5**  
+```js
+db.users.find({ age: { $mod: [5, 0] } })
+```
+
+---
+
+## **6️⃣ Update Query Operators**  
+Used for modifying existing documents.
+
+| Operator | Description | Example |
+|----------|------------|---------|
+| `$set`  | Updates field value | `{ $set: { status: "active" } }` |
+| `$unset` | Removes field | `{ $unset: { phone: "" } }` |
+| `$inc`  | Increments value | `{ $inc: { age: 1 } }` |
+| `$push` | Adds to array | `{ $push: { skills: "React" } }` |
+| `$pull` | Removes from array | `{ $pull: { tags: "old" } }` |
+
+**Example:**  
+Increase user's **age by 1**  
+```js
+db.users.updateOne({ name: "Alice" }, { $inc: { age: 1 } })
+```
+
+Remove `"old"` from user's **tags array**  
+```js
+db.users.updateOne({ name: "Alice" }, { $pull: { tags: "old" } })
+```
+
+---
+
+## **7️⃣ Deletion Query Operators**  
+Used for deleting documents.
+
+| Operator | Description | Example |
+|----------|------------|---------|
+| `$eq` | Delete matching field | `{ age: { $eq: 25 } }` |
+| `$lt`, `$lte` | Delete based on condition | `{ age: { $lt: 18 } }` |
+
+**Example:**  
+Delete users **younger than 18**  
+```js
+db.users.deleteMany({ age: { $lt: 18 } })
+```
+
+Delete users **with no email field**  
+```js
+db.users.deleteMany({ email: { $exists: false } })
+```
+
+---
+
+## **8️⃣ Aggregation Operators**  
+Used for advanced data processing.
+
+| Operator | Description | Example |
+|----------|------------|---------|
+| `$match` | Filters data | `{ $match: { age: { $gte: 18 } } }` |
+| `$group` | Groups documents | `{ $group: { _id: "$city", count: { $sum: 1 } } }` |
+| `$sort` | Sorts documents | `{ $sort: { age: -1 } }` |
+| `$limit` | Limits results | `{ $limit: 10 }` |
+
+**Example:**  
+Find **total users per city**  
+```js
+db.users.aggregate([
+  { $group: { _id: "$city", count: { $sum: 1 } } }
+])
+```
+
+Find the **top 5 oldest users**  
+```js
+db.users.aggregate([
+  { $sort: { age: -1 } },
+  { $limit: 5 }
+])
+```
+
+---
+
+## **🎯 Conclusion**  
+✅ Query Filters help find and manipulate documents efficiently  
+✅ Operators like `$eq`, `$gt`, `$or`, `$in` allow precise filtering  
+✅ Use **array, logical, element, update, and aggregation operators** for advanced queries  
+
+Would you like examples for **specific use cases**?

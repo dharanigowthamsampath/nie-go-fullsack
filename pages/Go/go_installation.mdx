@@ -1,25 +1,123 @@
----
-title: "Installing Go & Setting Up Workspace"
+# GoLang Installation Guide
+
+## Introduction
+
+GoLang (Go) is an open-source programming language developed by Google, known for its simplicity, efficiency, and scalability. This guide will walk you through the installation process on different operating systems.
+
 ---
 
-# Installing Go & Setting Up Workspace
+## Prerequisites
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Installing Go & Setting Up Workspace</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Installing Go & Setting Up Workspace goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+- Internet connection
+- Administrator or root privileges on your system
+
+---
+
+## Installation Steps
+
+### **Windows**
+
+1. **Download the Installer**
+
+   - Visit the official GoLang website: [https://go.dev/dl/](https://go.dev/dl/)
+   - Download the Windows `.msi` installer (64-bit recommended).
+
+2. **Run the Installer**
+
+   - Double-click the downloaded `.msi` file.
+   - Follow the installation wizard instructions.
+
+3. **Set Up Environment Variables** (Automatically Set by Installer)
+   - Ensure `C:\Go\bin` is in the `PATH` environment variable.
+   - Open Command Prompt (`cmd`) and verify:
+     ```sh
+     go version
+     ```
+     It should display the installed version.
+
+---
+
+### **macOS**
+
+1. **Download the Package**
+
+   - Visit: [https://go.dev/dl/](https://go.dev/dl/)
+   - Download the `.pkg` file for macOS.
+
+2. **Install Go**
+
+   - Double-click the `.pkg` file and follow the prompts.
+
+3. **Verify Installation**
+
+   - Open Terminal and run:
+     ```sh
+     go version
+     ```
+
+4. **(Optional) Install via Homebrew**
+   - If you use Homebrew, you can install Go with:
+     ```sh
+     brew install go
+     ```
+
+---
+
+## Setting Up Go Workspace
+
+1. **Create a Workspace Directory**
+
+   ```sh
+   mkdir -p $HOME/go
+   ```
+
+2. **Configure GOPATH**
+
+   - Add this to `~/.bashrc` or `~/.zshrc`:
+     ```sh
+     export GOPATH=$HOME/go
+     export PATH=$PATH:$GOPATH/bin
+     ```
+   - Apply changes:
+     ```sh
+     source ~/.bashrc
+     ```
+
+3. **Verify Workspace Setup**
+   ```sh
+   go env GOPATH
+   ```
+
+---
+
+## Writing and Running a Go Program
+
+1. **Create a New Go File** (`hello.go`)
+
+   ```go
+   package main
+
+   import "fmt"
+
+   func main() {
+       fmt.Println("Hello, Go!")
+   }
+   ```
+
+2. **Run the Program**
+
+   ```sh
+   go run hello.go
+   ```
+
+3. **Compile and Execute**
+   ```sh
+   go build hello.go
+   ./hello  # or hello.exe on Windows
+   ```
+
+---
+
+## Conclusion
+
+You have successfully installed GoLang on your system! You are now ready to start coding in Go and build efficient applications. For more details, visit the official documentation: [https://golang.org/doc/](https://golang.org/doc/).

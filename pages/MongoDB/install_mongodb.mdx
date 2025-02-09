@@ -1,25 +1,98 @@
----
-title: "Installing MongoDB"
+### **Installing MongoDB on Your System** 🚀  
+
+MongoDB can be installed on **Windows, macOS, and Linux**. Below are the step-by-step installation guides for each OS.
+
 ---
 
-# Installing MongoDB
+## **🟢 1. Installing MongoDB on Windows**  
 
-<div className="container mt-5">
-  <div className="row">
-    <div className="col-12">
-      <div className="card">
-        <div className="card-body">
-          <h2 className="card-title">Installing MongoDB</h2>
-          
-          {/* Add your content here */}
-          <p>Content for Installing MongoDB goes here...</p>
-          
-          <div className="mt-4">
-            <button className="btn btn-primary me-2">Previous</button>
-            <button className="btn btn-primary">Next</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+### **Step 1: Download MongoDB Community Edition**  
+1. Go to the **official MongoDB website**:  
+   🔗 [https://www.mongodb.com/try/download/community](https://www.mongodb.com/try/download/community)  
+2. Choose **Windows** and select the **MSI (64-bit) package**.  
+3. Click **Download** and wait for the installer to finish.
+
+### **Step 2: Install MongoDB**  
+1. Open the downloaded `.msi` file.  
+2. Choose **Complete Installation**.  
+3. Select **"Run MongoDB as a Windows Service"** (recommended).  
+4. Click **Install** and wait for completion.  
+
+### **Step 3: Verify Installation**  
+1. Open **Command Prompt (cmd)** and run:  
+   ```sh
+   mongod --version
+   ```
+   ✅ If you see a version number, MongoDB is installed successfully.  
+
+2. To start MongoDB, run:  
+   ```sh
+   net start MongoDB
+   ```
+
+---
+
+## **🍏 2. Installing MongoDB on macOS**  
+
+### **Step 1: Install MongoDB Using Homebrew**  
+1. Open **Terminal** and run:  
+   ```sh
+   brew tap mongodb/brew
+   brew install mongodb-community@7.0
+   ```
+   ✅ Installs the latest **MongoDB 7.0** version.
+
+### **Step 2: Start MongoDB Service**  
+Run the following command:  
+```sh
+brew services start mongodb-community@7.0
+```
+
+### **Step 3: Verify Installation**  
+```sh
+mongod --version
+```
+✅ If the version is displayed, MongoDB is installed.
+
+---
+
+## **🐧 3. Installing MongoDB on Linux (Ubuntu/Debian)**  
+
+### **Step 1: Import the MongoDB GPG Key**  
+```sh
+wget -qO - https://www.mongodb.org/static/pgp/server-7.0.asc | sudo apt-key add -
+```
+
+### **Step 2: Add MongoDB Repository**  
+```sh
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+```
+
+### **Step 3: Install MongoDB**  
+```sh
+sudo apt update
+sudo apt install -y mongodb-org
+```
+
+### **Step 4: Start MongoDB Service**  
+```sh
+sudo systemctl start mongod
+sudo systemctl enable mongod
+```
+
+### **Step 5: Verify Installation**  
+```sh
+mongod --version
+```
+✅ If the version appears, MongoDB is successfully installed.
+
+---
+
+## **🚀 Running MongoDB**
+Once installed, start the MongoDB shell using:
+```sh
+mongosh
+```
+✅ If you see the MongoDB shell prompt (`>`) appearing, your setup is successful!
+
+Would you like a guide on **connecting MongoDB to a Node.js application**?
